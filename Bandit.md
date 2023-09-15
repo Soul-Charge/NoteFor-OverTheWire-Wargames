@@ -424,11 +424,33 @@ z7WtoNQU2XfjmMtWA8u5rN4vzqu4v99S
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt next to the word millionth
+
+> 下一个level的密码存储在文件"data.txt"中，密码在单词`millionth`后面
+
 ### 相关知识
+
+`egrep`
 
 ### 具体操作
 
+`ls`
+
+```
+data.txt
+```
+
+`egrep millionth data.txt`
+
+```
+millionth       TESKZC0XvTetK0S9xNwm25STk5iWrBvP
+```
+
 ### 密码
+
+```
+TESKZC0XvTetK0S9xNwm25STk5iWrBvP
+```
 
 ## Level 8 -> Level 9
 
