@@ -176,11 +176,64 @@ inhere
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.
+
+> 下一个level的密码存储在一个[只有人类可读的文件](https://learnblockchain.cn/ethers_v5/api/utils/abi/formats/#abi-formats--human-readable-abi)，该文件位于inhere目录。提示：如果你的终端一团乱，试试`reset`命令
+> 不是很懂"only human-readable file"的意思，目前来看总之就是里面的内容你至少看起来不是乱码
+
 ### 相关知识
+
+`ls`, `cd`, `*通配符`, `reset`
+用`./*`匹配当前目录下所有文件
 
 ### 具体操作
 
+`ls`
+```
+inhere
+```
+`cd inhere`
+`ls`
+```
+-file00  -file01  -file02  -file03  -file04  -file05  -file06  -file07  -file08  -file09
+```
+1. 不多才10个文件大不了一个一个看
+    用`cat ./-file00`这样的方法一个个看没什么好说的
+2. 用一个通配符全显示出来
+    `cat ./*`
+    ```
+    �Ű��Bη���b<Q�Ƞ�+V�iO�1�[5{�jmD�B�0D�tQ*��)�A���V �]Ȕl�x(�z�.T26 F8qqlY���v�FN#��'~�E�Q�"�p�
+    ����4�}�]��G�A��u[�/9��Mrj�S�r_E�,���G+�h|�+
+    �=>KQ�2��]o-p8q�츑���D�
+                       .~�&ϯ"PT�I'�cwk^j�����M����;,��co�9lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+    ```
+    > 中间好像有个东西很像密码哎，这里只有一部分，问就是全塞了有问题
+3. `file`查看文件内容类型
+    `file ./*`
+    ```
+    ./-file00: data
+    ./-file01: data
+    ./-file02: data
+    ./-file03: data
+    ./-file04: data
+    ./-file05: data
+    ./-file06: data
+    ./-file07: ASCII text
+    ./-file08: data
+    ./-file09: Non-ISO extended-ASCII text, with no line terminators
+    ```
+    `-file07`如此明显
+
+`cat -file07`
+```
+lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+```
+
 ### 密码
+
+```
+lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+```
 
 ## Level 5 -> Level 6
 
