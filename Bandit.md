@@ -102,12 +102,41 @@ rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
 
 ### 原文翻译分析
 
+> The password for the next level is stored in a file called spaces in this filename located in the home directory
+
+> 下一个level的密码存储在名为"spaces in this filename"的文件，该文件位于home目录
+
 ### 相关知识
+
+`ls` `cat`
+匹配带有空格的文件名
+1. `\`
+    用`\`转义空格，使空格作为文件名的一部分而不是隔开命令或文件名，其他特殊符号同理
+    > Tab键补全不会有人不知道吧，不会吧不会吧
+2. `"`
+    用`""`包裹文件名
 
 ### 具体操作
 
+`ls`
+```
+spaces in this filename
+```
+1. 用`\`
+    `cat <Tab>`
+    `cat spaces\ in\ this\ filename`
+2. 用`""`包裹文件名
+    `cat "spaces in this filename"`
+
+```
+aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+```
+
 ### 密码
 
+```
+aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+```
 ## Level 3 -> Level 4
 
 ### 原文翻译分析
