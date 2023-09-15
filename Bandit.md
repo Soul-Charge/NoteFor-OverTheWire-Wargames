@@ -523,11 +523,28 @@ G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt, which contains base64 encoded data
+
+> 下个level的密码存储在 data.txt 文件中，该文件包含 base64 编码的数据
+
 ### 相关知识
+
+`base64`
 
 ### 具体操作
 
+用`base64 -d`就能解码base64编码的数据了
+`base64 -d data.txt`
+
+```
+The password is 6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
+```
+
 ### 密码
+
+```
+6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
+```
 
 ## Level 11 -> Level 12
 
