@@ -493,11 +493,31 @@ EN632PlfYiZbn3PhVK3XOGSlNInNE00t
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt in one of the few human-readable strings, preceded by several ‘=’ characters.
+
+> 下个level的密码存储在 data.txt 文件中，是为数不多的人类可读字符串之一，前面有几个"="字符。
+
 ### 相关知识
+
+`grep -a`
 
 ### 具体操作
 
+> 那些重复了10次的占位置的`ls`什么的不写了
+
+`grep -a "=" data.txt`
+会看到有很多匹配了=的，这时候添加=
+`grep -a "==" data.txt`
+三个=的时候就只剩下三个匹配了，最后一个很明显是密码
+```
+���R-�C�========== G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
+```
+
 ### 密码
+
+```
+G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
+```
 
 ## Level 10 -> Level 11
 
