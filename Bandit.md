@@ -239,11 +239,50 @@ lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
 
 ### 原文翻译分析
 
+> The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:
+> human-readable
+> 1033 bytes in size
+> not executable
+
+> 下一个level的密码存储在位于"inhere"目录的某处的文件，并且该文件具有以下特点：
+> 人类可读
+> 大小 1033 bytes
+> 不可执行
+
 ### 相关知识
+
+`ls`, `cd`, `find`
 
 ### 具体操作
 
+因为直接按找文件大小就找到了所以我懒得管其他两个了
+
+`ls`
+```
+inhere
+```
+`cd inhere`
+`ls`
+```
+maybehere00  maybehere03  maybehere06  maybehere09  maybehere12  maybehere15  maybehere18
+maybehere01  maybehere04  maybehere07  maybehere10  maybehere13  maybehere16  maybehere19
+maybehere02  maybehere05  maybehere08  maybehere11  maybehere14  maybehere17
+```
+`find -size 1033c`
+```
+./maybehere07/.file2
+```
+`cat ./maybehere07/.file2`
+
+```
+P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
+```
+
 ### 密码
+
+```
+P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
+```
 
 ## Level 6 -> Level 7
 
