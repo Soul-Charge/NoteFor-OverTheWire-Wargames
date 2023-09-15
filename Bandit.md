@@ -71,11 +71,32 @@ NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
 
 ### 原文翻译分析
 
+> The password for the next level is stored in a file called - located in the home directory
+
+> 下一个level的密码存储在一个名为"-"的文件，该文件位于home目录
+
 ### 相关知识
+
+`ls` `cat`
+`./`匹配当前目录
+处理`-`文件名
 
 ### 具体操作
 
+`ls`
+```
+-
+```
+`cat ./-`
+```
+rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+```
+
 ### 密码
+
+```
+rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+```
 
 ## Level 2 -> Level 3
 
