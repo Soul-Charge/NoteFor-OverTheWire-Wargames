@@ -456,11 +456,38 @@ TESKZC0XvTetK0S9xNwm25STk5iWrBvP
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt and is the only line of text that occurs only once
+
+> 下个level的密码存储在文件"date.txt"里，密码是该文件内唯一一个只出现一次的行
+
 ### 相关知识
+
+`sort`, `uniq -u`
+
 
 ### 具体操作
 
+用`uniq -u`显示输入文本内容中只出现了一次的行
+但是需要内容已被整理排序（就是相同行都放一起）
+所以`uniq -u`前面用`sort`加管道`|`把排序好的内容传入`uniq -u`
+
+`ls`
+
+```
+data.txt
+```
+
+`sort data.txt | uniq -u`
+
+```
+EN632PlfYiZbn3PhVK3XOGSlNInNE00t
+```
+
 ### 密码
+
+```
+EN632PlfYiZbn3PhVK3XOGSlNInNE00t
+```
 
 ## Level 9 -> Level 10
 
