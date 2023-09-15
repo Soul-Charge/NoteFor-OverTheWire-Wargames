@@ -48,7 +48,7 @@ bandit0
 
 ### 相关知识
 
-`ls` , `cat`
+`ls`, `cat`
 
 ### 具体操作
 
@@ -77,7 +77,7 @@ NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
 
 ### 相关知识
 
-`ls` `cat`
+`ls`, `cat`
 `./`匹配当前目录
 处理`-`文件名
 
@@ -108,7 +108,7 @@ rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
 
 ### 相关知识
 
-`ls` `cat`
+`ls` , `cat`
 匹配带有空格的文件名
 1. `\`
     用`\`转义空格，使空格作为文件名的一部分而不是隔开命令或文件名，其他特殊符号同理
@@ -141,11 +141,36 @@ aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
 
 ### 原文翻译分析
 
+> The password for the next level is stored in a hidden file in the inhere directory.
+
+> 下一个level的密码存储在一个隐藏文件，该文件位于"inhere"目录
+
 ### 相关知识
+
+`ls -a`, `cd`
+`.`开头的隐藏文件
 
 ### 具体操作
 
+`ls`
+```
+inhere
+```
+`cd inhere`
+`ls -a`
+```
+.  ..  .hidden
+```
+`cat .hidden`
+```
+2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
+```
+
 ### 密码
+
+```
+2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
+```
 
 ## Level 4 -> Level 5
 
