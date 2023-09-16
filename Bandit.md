@@ -1,7 +1,7 @@
 # OverTheWire Bandit
 
-[网页](https://overthewire.org/wargames/bandit/)
-注释：具体操作部分的内容，代码块为终端回显内容，<>内为输入内容
+[网页](https://overthewire.org/wargames/bandit/)  
+注释：具体操作部分的内容，代码块为终端回显内容，<>内为输入内容  
 
 ## Level 0
 
@@ -18,6 +18,7 @@
 ### 具体操作
 
 `ssh bandit0@bandit.labs.overthewire.org -p 2220`
+
 ```
                          _                     _ _ _
                         | |__   __ _ _ __   __| (_) |_
@@ -53,10 +54,13 @@ bandit0
 ### 具体操作
 
 `ls`
+
 ```
 readme
 ```
+
 `cat readme`
+
 ```
 NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
 ```
@@ -77,17 +81,20 @@ NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
 
 ### 相关知识
 
-`ls`, `cat`
-`./`匹配当前目录
-处理`-`文件名
+`ls`, `cat`  
+`./`匹配当前目录  
+处理`-`文件名  
 
 ### 具体操作
 
 `ls`
+
 ```
 -
 ```
+
 `cat ./-`
+
 ```
 rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
 ```
@@ -108,23 +115,25 @@ rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
 
 ### 相关知识
 
-`ls` , `cat`
-匹配带有空格的文件名
+`ls` , `cat`  
+匹配带有空格的文件名  
 1. `\`
-    用`\`转义空格，使空格作为文件名的一部分而不是隔开命令或文件名，其他特殊符号同理
-    > Tab键补全不会有人不知道吧，不会吧不会吧
+    用`\`转义空格，使空格作为文件名的一部分而不是隔开命令或文件名，其他特殊符号同理  
+    > Tab键补全不会有人不知道吧，不会吧不会吧  
 2. `"`
     用`""`包裹文件名
 
 ### 具体操作
 
 `ls`
+
 ```
 spaces in this filename
 ```
+
 1. 用`\`
-    `cat <Tab>`
-    `cat spaces\ in\ this\ filename`
+    `cat <Tab>`  
+    `cat spaces\ in\ this\ filename`  
 2. 用`""`包裹文件名
     `cat "spaces in this filename"`
 
@@ -137,6 +146,7 @@ aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
 ```
 aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
 ```
+
 ## Level 3 -> Level 4
 
 ### 原文翻译分析
@@ -147,21 +157,26 @@ aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
 
 ### 相关知识
 
-`ls -a`, `cd`
-`.`开头的隐藏文件
+`ls -a`, `cd`  
+`.`开头的隐藏文件  
 
 ### 具体操作
 
 `ls`
+
 ```
 inhere
 ```
+
 `cd inhere`
 `ls -a`
+
 ```
 .  ..  .hidden
 ```
+
 `cat .hidden`
+
 ```
 2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
 ```
@@ -178,39 +193,46 @@ inhere
 
 > The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.
 
-> 下一个level的密码存储在一个[只有人类可读的文件](https://learnblockchain.cn/ethers_v5/api/utils/abi/formats/#abi-formats--human-readable-abi)，该文件位于inhere目录。提示：如果你的终端一团乱，试试`reset`命令
+> 下一个level的密码存储在一个[只有人类可读的文件](https://learnblockchain.cn/ethers_v5/api/utils/abi/formats/#abi-formats--human-readable-abi)，该文件位于inhere目录。提示：如果你的终端一团乱，试试`reset`命令  
 > 不是很懂"only human-readable file"的意思，目前来看总之就是里面的内容你至少看起来不是乱码
 
 ### 相关知识
 
-`ls`, `cd`, `*通配符`, `file`, `reset`
-用`./*`匹配当前目录下所有文件
-用`file`查看文件类型
+`ls`, `cd`, `*通配符`, `file`, `reset`  
+用`./*`匹配当前目录下所有文件  
+用`file`查看文件类型  
 
 ### 具体操作
 
 `ls`
+
 ```
 inhere
 ```
-`cd inhere`
-`ls`
+
+`cd inhere`  
+`ls`  
+
 ```
 -file00  -file01  -file02  -file03  -file04  -file05  -file06  -file07  -file08  -file09
 ```
+
 1. 不多才10个文件大不了一个一个看
     用`cat ./-file00`这样的方法一个个看没什么好说的
 2. 用一个通配符全显示出来
-    `cat ./*`
+    `cat ./*`  
+
     ```
     �Ű��Bη���b<Q�Ƞ�+V�iO�1�[5{�jmD�B�0D�tQ*��)�A���V �]Ȕl�x(�z�.T26 F8qqlY���v�FN#��'~�E�Q�"�p�
     ����4�}�]��G�A��u[�/9��Mrj�S�r_E�,���G+�h|�+
     �=>KQ�2��]o-p8q�츑���D�
                        .~�&ϯ"PT�I'�cwk^j�����M����;,��co�9lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
     ```
+
     > 中间好像有个东西很像密码哎，这里只有一部分，问就是全塞了有问题
 3. `file`查看文件内容类型
     `file ./*`
+
     ```
     ./-file00: data
     ./-file01: data
@@ -223,9 +245,11 @@ inhere
     ./-file08: data
     ./-file09: Non-ISO extended-ASCII text, with no line terminators
     ```
+
     `-file07`如此明显
 
 `cat -file07`
+
 ```
 lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
 ```
@@ -240,15 +264,15 @@ lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
 
 ### 原文翻译分析
 
-> The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:
-> human-readable
-> 1033 bytes in size
-> not executable
+> The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:  
+> human-readable  
+> 1033 bytes in size  
+> not executable  
 
-> 下一个level的密码存储在位于"inhere"目录的某处的文件，并且该文件具有以下特点：
-> 人类可读
-> 大小 1033 bytes
-> 不可执行
+> 下一个level的密码存储在位于"inhere"目录的某处的文件，并且该文件具有以下特点：  
+> 人类可读  
+> 大小 1033 bytes  
+> 不可执行  
 
 ### 相关知识
 
@@ -259,20 +283,26 @@ lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
 因为直接按找文件大小就找到了所以我懒得管其他两个了
 
 `ls`
+
 ```
 inhere
 ```
-`cd inhere`
-`ls`
+
+`cd inhere`  
+`ls`  
+
 ```
 maybehere00  maybehere03  maybehere06  maybehere09  maybehere12  maybehere15  maybehere18
 maybehere01  maybehere04  maybehere07  maybehere10  maybehere13  maybehere16  maybehere19
 maybehere02  maybehere05  maybehere08  maybehere11  maybehere14  maybehere17
 ```
+
 `find -size 1033c`
+
 ```
 ./maybehere07/.file2
 ```
+
 `cat ./maybehere07/.file2`
 
 ```
@@ -289,15 +319,15 @@ P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
 
 ### 原文翻译分析
 
->The password for the next level is stored somewhere on the server and has all of the following properties:
-> owned by user bandit7
-> owned by group bandit6
-> 33 bytes in size
+>The password for the next level is stored somewhere on the server and has all of the following properties:  
+> owned by user bandit7  
+> owned by group bandit6  
+> 33 bytes in size  
 
-> 下一个level的密码存储在此服务器的某处，并且具有以下所有特点
-> 所有者为bandit7
-> 用户组为bandit6
-> 大小为 33 bytes
+> 下一个level的密码存储在此服务器的某处，并且具有以下所有特点  
+> 所有者为bandit7  
+> 用户组为bandit6  
+> 大小为 33 bytes  
 
 ### 相关知识
 
@@ -305,9 +335,9 @@ P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
 
 ### 具体操作
 
-在根目录按照三个条件搜索
-`find / -user bandit7 -group bandit6 -size 33c`
-> 因为没权限显示的一堆消息不知道怎么清除只能先这样了╮(╯-╰)╭
+在根目录按照三个条件搜索  
+`find / -user bandit7 -group bandit6 -size 33c`  
+> 因为没权限显示的一堆消息不知道怎么清除只能先这样了╮(╯-╰)╭  
 
 ```
 find: ‘/var/log’: Permission denied
@@ -405,8 +435,8 @@ find: ‘/sys/fs/pstore’: Permission denied
 find: ‘/sys/fs/bpf’: Permission denied
 ```
 
-看到了输出中有这一行即为密码的文件
-`/var/lib/dpkg/info/bandit7.password`
+看到了输出中有这一行即为密码的文件  
+`/var/lib/dpkg/info/bandit7.password`  
 
 `cat /var/lib/dpkg/info/bandit7.password`
 
@@ -467,9 +497,9 @@ TESKZC0XvTetK0S9xNwm25STk5iWrBvP
 
 ### 具体操作
 
-用`uniq -u`显示输入文本内容中只出现了一次的行
-但是需要内容已被整理排序（就是相同行都放一起）
-所以`uniq -u`前面用`sort`加管道`|`把排序好的内容传入`uniq -u`
+用`uniq -u`显示输入文本内容中只出现了一次的行  
+但是需要内容已被整理排序（就是相同行都放一起）  
+所以`uniq -u`前面用`sort`加管道`|`把排序好的内容传入`uniq -u`  
 
 `ls`
 
@@ -505,10 +535,11 @@ EN632PlfYiZbn3PhVK3XOGSlNInNE00t
 
 > 那些重复了10次的占位置的`ls`什么的不写了
 
-`grep -a "=" data.txt`
-会看到有很多匹配了=的，这时候添加=
-`grep -a "==" data.txt`
-三个=的时候就只剩下三个匹配了，最后一个很明显是密码
+`grep -a "=" data.txt`  
+会看到有很多匹配了=的，这时候添加=  
+`grep -a "==" data.txt`  
+三个=的时候就只剩下三个匹配了，最后一个很明显是密码  
+
 ```
 ���R-�C�========== G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
 ```
@@ -533,8 +564,8 @@ G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
 
 ### 具体操作
 
-用`base64 -d`就能解码base64编码的数据了
-`base64 -d data.txt`
+用`base64 -d`就能解码base64编码的数据了  
+`base64 -d data.txt`  
 
 ```
 The password is 6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
@@ -550,7 +581,7 @@ The password is 6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
 
 ### 原文翻译分析
 
-> The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions
+> The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions  
 
 > 下个level的密码存储在"data.txt"文件，里面所有的大小写字母都移动了13位
 
@@ -574,28 +605,28 @@ JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
 
 > The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)
 
-> 下一个level的密码存储在"data.txt"中，该文件是一个经过反复压缩的十六进制转储文件。
->  因为你没权限直接在这个用户的目录下创建文件，所以先在/temp目录下创建个文件夹然后把`data.txt`复制过去，之后按需用`mv`重命名
+> 下一个level的密码存储在"data.txt"中，该文件是一个经过反复压缩的十六进制转储文件。  
+>  因为你没权限直接在这个用户的目录下创建文件，所以先在/temp目录下创建个文件夹然后把`data.txt`复制过去，之后按需用`mv`重命名  
 > 例如：`mkdir /tmp/myname123`
 
 ### 相关知识
 
-`mkdir`, `cp`, `mv`
-> `cd -`可以返回上一个目录，是上一个不是上一级
+`mkdir`, `cp`, `mv`  
+> `cd -`可以返回上一个目录，是上一个不是上一级  
 
-`xxd`, `hexdump`
-[hexdump](https://en.wikipedia.org/wiki/Hex_dump)
-[十六进制转储](https://zh.wikipedia.org/wiki/十六进制转储)
-> 虽然题目提到了hexdump，但`hexdump`命令，只是具有转换十六进制转储(hexdump)的功能的命令之一，除此之外还有`xxd`
-> 没错就是因为hexdump这个词同时是一个命令，所以有点迷糊人
+`xxd`, `hexdump`  
+[hexdump](https://en.wikipedia.org/wiki/Hex_dump)  
+[十六进制转储](https://zh.wikipedia.org/wiki/十六进制转储)  
+> 虽然题目提到了hexdump，但`hexdump`命令，只是具有转换十六进制转储(hexdump)的功能的命令之一，除此之外还有`xxd`  
+> 没错就是因为hexdump这个词同时是一个命令，所以有点迷糊人  
 
 `gzip`, `bzip2`, `tar`
 
 ### 具体操作
 
-`mkdir /tmp/test-SoulCharge`
-`cp data.txt /tmp/test-SoulCharge`
-`cd /tmp/test-SoulCharge`
+`mkdir /tmp/test-SoulCharge`  
+`cp data.txt /tmp/test-SoulCharge`  
+`cd /tmp/test-SoulCharge`  
 
 > `test-SoulCharge`为你要用的文件夹名，取一个特殊一点的名字以防创建不了
 
@@ -643,44 +674,44 @@ JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
 00000260: f0c8 4502 0000                           ..E...
 ```
 
-结合题目提示**多次压缩的十六进制转储**文件，然后看看这个内容
-发现这个文本内容就是`hexdump`和`xxd`之类的十六进制转储命令的输出结果
-于是只需把该文本转换回原内容即可得到压缩文件内容
-[用`xxd -r`可以把十六进制转储内容转换回二进制内容，并输出到一个文件](https://www.topbyte.cn/2018/11/hexdump-binary-file-and-reverse/)
+结合题目提示**多次压缩的十六进制转储**文件，然后看看这个内容  
+发现这个文本内容就是`hexdump`和`xxd`之类的十六进制转储命令的输出结果  
+于是只需把该文本转换回原内容即可得到压缩文件内容  
+[用`xxd -r`可以把十六进制转储内容转换回二进制内容，并输出到一个文件](https://www.topbyte.cn/2018/11/hexdump-binary-file-and-reverse/)  
 
-`xxd -r data.txt > data`
-`file data`                         # 查看该压缩文件的类型
+`xxd -r data.txt > data`  
+`file data`                         # 查看该压缩文件的类型  
 
 ```
 data: gzip compressed data, was "data2.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 581
 ```
 
-`mv data data.gz`            # 不改名加一个对应的后缀不能解压（不懂
-`gzip -d data.gz`
-`file data`
+`mv data data.gz`            # 不改名加一个对应的后缀不能解压（不懂  
+`gzip -d data.gz`  
+`file data`  
 
 ```
 data: bzip2 compressed data, block size = 900k
 ```
 
-`mv data data.bz2`
-`bzip2 -d data.bz2`
-`file data`
+`mv data data.bz2`  
+`bzip2 -d data.bz2`  
+`file data`  
 
 ```
 data: gzip compressed data, was "data4.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 20480
 ```
 
-`mv data data.gz`
-`gzip -d data.gz`
-`file data`
+`mv data data.gz`  
+`gzip -d data.gz`  
+`file data`  
 
 ```
 data: POSIX tar archive (GNU)
 ```
 
-`tar -xf data`
-`ls`
+`tar -xf data`  
+`ls`  
 
 ```
 data  data5.bin  data.txt
@@ -692,8 +723,8 @@ data  data5.bin  data.txt
 data5.bin: POSIX tar archive (GNU)
 ```
 
-`tar -xf data5.bin`
-`ls`
+`tar -xf data5.bin`  
+`ls`  
 
 ```
 data  data5.bin  data6.bin  data.txt
@@ -705,9 +736,9 @@ data  data5.bin  data6.bin  data.txt
 data6.bin: bzip2 compressed data, block size = 900k
 ```
 
-`mv data6.bin data6.bin.bz2`
-`bzip2 -d data6.bin.bz2`
-`ls`
+`mv data6.bin data6.bin.bz2`  
+`bzip2 -d data6.bin.bz2`  
+`ls`  
 
 ```
 data  data5.bin  data6.bin  data.txt    # bzip2解压以后原文件被替换了所以看起来没变化，但其实解压后的就是data6.bin
@@ -719,8 +750,8 @@ data  data5.bin  data6.bin  data.txt    # bzip2解压以后原文件被替换了
 data6.bin: POSIX tar archive (GNU)
 ```
 
-`tar -xf data6.bin`
-`ls`
+`tar -xf data6.bin`  
+`ls`  
 
 ```
 data  data5.bin  data6.bin  data8.bin  data.txt
@@ -732,9 +763,9 @@ data  data5.bin  data6.bin  data8.bin  data.txt
 data8.bin: gzip compressed data, was "data9.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 49
 ```
 
-`mv data8.bin data8.bin.gz`
-`gzip -d data8.bin.gz`
-`ls`
+`mv data8.bin data8.bin.gz`  
+`gzip -d data8.bin.gz`  
+`ls`  
 
 ```
 data  data5.bin  data6.bin  data8.bin  data.txt    # 同上一条
@@ -752,8 +783,8 @@ data8.bin: ASCII text
 The password is wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
 ```
 
-> 你怎么就是不出来（密码）
-> 八重套娃，小子！
+> 你怎么就是不出来（密码）  
+> 八重套娃，小子！  
 
 ### 密码
 
