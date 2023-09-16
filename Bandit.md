@@ -550,11 +550,23 @@ The password is 6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions
+
+> 下个level的密码存储在"data.txt"文件，里面所有的大小写字母都移动了13位
+
 ### 相关知识
+
+[关于Rot13这里从简介到转换全给你了](https://lzltool.cn/Tools/Rot13)
 
 ### 具体操作
 
+自己随便搜Rot13找一个网站就能转换
+
 ### 密码
+
+```
+JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
+```
 
 ## Level 12 -> Level 13
 
