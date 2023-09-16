@@ -572,11 +572,194 @@ JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
 
 ### 原文翻译分析
 
+> The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)
+
+> 下一个level的密码存储在"data.txt"中，该文件是一个经过反复压缩的十六进制转储文件。
+>  因为你没权限直接在这个用户的目录下创建文件，所以先在/temp目录下创建个文件夹然后把`data.txt`复制过去，之后按需用`mv`重命名
+> 例如：`mkdir /tmp/myname123`
+
 ### 相关知识
+
+`mkdir`, `cp`, `mv`
+> `cd -`可以返回上一个目录，是上一个不是上一级
+
+`xxd`, `hexdump`
+[hexdump](https://en.wikipedia.org/wiki/Hex_dump)
+[十六进制转储](https://zh.wikipedia.org/wiki/十六进制转储)
+> 虽然题目提到了hexdump，但`hexdump`命令，只是具有转换十六进制转储(hexdump)的功能的命令之一，除此之外还有`xxd`
+> 没错就是因为hexdump这个词同时是一个命令，所以有点迷糊人
+
+`gzip`, `bzip2`, `tar`
 
 ### 具体操作
 
+`mkdir /tmp/test-SoulCharge`
+`cp data.txt /tmp/test-SoulCharge`
+`cd /tmp/test-SoulCharge`
+
+> `test-SoulCharge`为你要用的文件夹名，取一个特殊一点的名字以防创建不了
+
+`cat data.txt`
+
+```
+00000000: 1f8b 0808 2773 4564 0203 6461 7461 322e  ....'sEd..data2.
+00000010: 6269 6e00 0145 02ba fd42 5a68 3931 4159  bin..E...BZh91AY
+00000020: 2653 597b 4f96 5f00 0018 ffff fd6f e7ed  &SY{O._......o..
+00000030: bff7 bef7 9fdb d7ca ffbf edff 8ded dfd7  ................
+00000040: bfe7 bbff bfdb fbff ffbf ff9f b001 3b56  ..............;V
+00000050: 0400 0068 0064 3400 d341 a000 0680 0699  ...h.d4..A......
+00000060: 0000 69a0 0000 1a00 1a0d 0034 0034 d3d4  ..i........4.4..
+00000070: d1a3 d464 6834 6403 d469 b422 0d00 3400  ...dh4d..i."..4.
+00000080: 1a68 068d 3403 4d06 8d00 0c80 00f5 0003  .h..4.M.........
+00000090: 4031 3119 00d0 1a68 1a34 c86d 4640 00d0  @11....h.4.mF@..
+000000a0: 0007 a80d 000d 00e9 a340 d034 0341 a000  .........@.4.A..
+000000b0: 0699 07a9 881e a0d0 da80 6834 0c43 4068  ..........h4.C@h
+000000c0: 6432 0340 0c80 6800 0346 8006 8000 d034  d2.@..h..F.....4
+000000d0: 0001 f0e1 810e 1958 b7a4 92c7 640e 421a  .......X....d.B.
+000000e0: a147 6142 a67e 3603 a756 3ba9 1b08 e034  .GaB.~6..V;....4
+000000f0: 41fd 1247 661d b380 00b7 cd8c b23e b6b2  A..Gf........>..
+00000100: 1947 e803 0be5 6077 a542 e9ea 7810 29f0  .G....`w.B..x.).
+00000110: 429d e1d7 ad8b 0b78 056b e37c 06df 4917  B......x.k.|..I.
+00000120: 9b46 f69d 4473 80b4 edc2 ee10 04e3 3e52  .F..Ds........>R
+00000130: dd34 2244 08cb 5e64 9314 9521 505e e767  .4"D..^d...!P^.g
+00000140: 9021 d029 85e7 9ce2 d1ce d44f 5ec5 f6d6  .!.).......O^...
+00000150: d918 de31 f1f5 d149 4695 0937 d06b f046  ...1...IF..7.k.F
+00000160: 789d 1bd0 ca69 11eb 2c9a 3290 3d9e 0511  x....i..,.2.=...
+00000170: 6cad 205b edc8 c4b5 4691 379a 5978 58c3  l. [....F.7.YxX.
+00000180: 4846 a4a0 3ba5 a89a a794 1f93 c588 8160  HF..;..........`
+00000190: 016e 2504 2c74 643b 5046 4154 751c 33b1  .n%.,td;PFATu.3.
+000001a0: c3e5 53d8 a959 5fdc 6c12 f2bd 02f3 2d83  ..S..Y_.l.....-.
+000001b0: b965 3188 0d3c b097 4156 e950 9d49 64f6  .e1..<..AV.P.Id.
+000001c0: da4a 2db5 a4ea 5365 27c0 1e79 8109 5f31  .J-...Se'..y.._1
+000001d0: c184 46c9 74a5 f923 5ea1 6861 f058 226c  ..F.t..#^.ha.X"l
+000001e0: 3df6 5d10 d11f d966 77c9 e488 448c 5a6f  =.]....fw...D.Zo
+000001f0: 2c10 410b 4280 140a 0818 8afa 0cfa 8bf7  ,.A.B...........
+00000200: ad34 3308 4077 6552 9849 378e 7d85 1fd8  .43.@weR.I7.}...
+00000210: f287 1238 7639 11e2 f1e6 483b 7548 25e2  ...8v9....H;uH%.
+00000220: 7de4 24ff 1a69 0b85 4b4c ebd0 1231 a512  }.$..i..KL...1..
+00000230: f9fb 109c e7ea d932 98fd eb76 f4f8 fa29  .......2...v...)
+00000240: 967c e152 9c69 c607 6207 eaef 2095 9441  .|.R.i..b... ..A
+00000250: a64e 9ffc 5dc9 14e1 4241 ed3e 597c 9f2e  .N..]...BA.>Y|..
+00000260: f0c8 4502 0000                           ..E...
+```
+
+结合题目提示**多次压缩的十六进制转储**文件，然后看看这个内容
+发现这个文本内容就是`hexdump`和`xxd`之类的十六进制转储命令的输出结果
+于是只需把该文本转换回原内容即可得到压缩文件内容
+[用`xxd -r`可以把十六进制转储内容转换回二进制内容，并输出到一个文件](https://www.topbyte.cn/2018/11/hexdump-binary-file-and-reverse/)
+
+`xxd -r data.txt > data`
+`file data`                         # 查看该压缩文件的类型
+
+```
+data: gzip compressed data, was "data2.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 581
+```
+
+`mv data data.gz`            # 不改名加一个对应的后缀不能解压（不懂
+`gzip -d data.gz`
+`file data`
+
+```
+data: bzip2 compressed data, block size = 900k
+```
+
+`mv data data.bz2`
+`bzip2 -d data.bz2`
+`file data`
+
+```
+data: gzip compressed data, was "data4.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 20480
+```
+
+`mv data data.gz`
+`gzip -d data.gz`
+`file data`
+
+```
+data: POSIX tar archive (GNU)
+```
+
+`tar -xf data`
+`ls`
+
+```
+data  data5.bin  data.txt
+```
+
+`file data5.bin`
+
+```
+data5.bin: POSIX tar archive (GNU)
+```
+
+`tar -xf data5.bin`
+`ls`
+
+```
+data  data5.bin  data6.bin  data.txt
+```
+
+`file data6.bin`
+
+```
+data6.bin: bzip2 compressed data, block size = 900k
+```
+
+`mv data6.bin data6.bin.bz2`
+`bzip2 -d data6.bin.bz2`
+`ls`
+
+```
+data  data5.bin  data6.bin  data.txt    # bzip2解压以后原文件被替换了所以看起来没变化，但其实解压后的就是data6.bin
+```
+
+`file data6.bin`
+
+```
+data6.bin: POSIX tar archive (GNU)
+```
+
+`tar -xf data6.bin`
+`ls`
+
+```
+data  data5.bin  data6.bin  data8.bin  data.txt
+```
+
+`file data8.bin`
+
+```
+data8.bin: gzip compressed data, was "data9.bin", last modified: Sun Apr 23 18:04:23 2023, max compression, from Unix, original size modulo 2^32 49
+```
+
+`mv data8.bin data8.bin.gz`
+`gzip -d data8.bin.gz`
+`ls`
+
+```
+data  data5.bin  data6.bin  data8.bin  data.txt    # 同上一条
+```
+
+`file data8.bin`
+
+```
+data8.bin: ASCII text
+```
+
+`cat data8.bin`
+
+```
+The password is wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
+```
+
+> 你怎么就是不出来（密码）
+> 八重套娃，小子！
+
 ### 密码
+
+```
+wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
+```
 
 ## Level 13 -> Level 14
 
