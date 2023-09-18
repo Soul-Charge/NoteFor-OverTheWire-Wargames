@@ -926,11 +926,63 @@ jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
 
 ### 原文翻译分析
 
+> The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption.  
+> Helpful note: Getting “HEARTBEATING” and “Read R BLOCK”? Use -ign_eof and read the “CONNECTED COMMANDS” section in the manpage. Next to ‘R’ and ‘Q’, the ‘B’ command also works in this version of that command…  
+
+> 下一个level的密码需要向`localhost`的`30001`端口发送bandit15的密码，但是要用SSL加密，所以不能用`telnet`（那就用s_client）  
+> 有用的提示：如果你觉得一堆"Read R BLOCK"很烦，可以用`ign_eof`，并且读一下帮助页面里"CONNECTED COMMANDS"的内容  
+
 ### 相关知识
+
+`openssl s_client`
+
+查看帮助然后`/CONNECTED`查找题目提示的内容  
+`man opeenssl s_client`  
+
+```
+CONNECTED COMMANDS
+       If a connection is established with an SSL server then any data received from the server is displayed and any
+       key presses will be sent to the server. If end of file is reached then the connection will be closed down.
+       When used interactively (which means neither -quiet nor -ign_eof have been given), then certain commands are
+       also recognized which perform special operations. These commands are a letter which must appear at the start
+       of a line. They are listed below.
+
+       Q   End the current SSL connection and exit.
+
+       R   Renegotiate the SSL session (TLSv1.2 and below only).
+
+       k   Send a key update message to the server (TLSv1.3 only)
+
+       K   Send a key update message to the server and request one back (TLSv1.3 only)
+```
 
 ### 具体操作
 
+`openssl s_client -quiet -ign_eof -connect localhost:30001`  
+> `-quiet`和`-ign_eof`用来清除多余的内容，剩下的我不知道怎么清掉  
+
+```
+Can't use SSL_get_servername
+depth=0 CN = localhost
+verify error:num=18:self-signed certificate
+verify return:1
+depth=0 CN = localhost
+verify error:num=10:certificate has expired
+notAfter=Sep 17 08:03:36 2023 GMT
+verify return:1
+depth=0 CN = localhost
+notAfter=Sep 17 08:03:36 2023 GMT
+verify return:1
+jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt # 自己粘贴的密码
+Correct!
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+```
+
 ### 密码
+
+```
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+```
 
 ## Level 16 -> Level 17
 
