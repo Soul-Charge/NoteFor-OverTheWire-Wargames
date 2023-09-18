@@ -796,6 +796,156 @@ wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
 
 ### 原文翻译分析
 
+> The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Note: localhost is a hostname that refers to the machine you are working on
+
+> 下个level的密码存储在 /etc/bandit_pass/bandit14 ，该文件只能被用户bandit14读取。所以这关你不需要获得密码，你需要获取一个SSH key私钥来登录到bandit14。提示：`localhost`是一个代表了当前你用的主机的主机名。
+
+### 相关知识
+
+[SSH/OpenSSH/Keys](https://help.ubuntu.com/community/SSH/OpenSSH/Keys)  
+> 没错我照搬这一页的提示，用翻译看一下就差不多知道了  
+
+[关于多私钥管理，可参考这个](https://www.jianshu.com/p/fe215c52c534)  
+> 因为如果你用github基本上你的`id_rsa`已经被占用了，估计没人想为了这关删了自己github的key，所以干脆配置多私钥，这里我用的上述方法二  
+
+### 具体操作
+
+**登录上bandit13**  
+`cat sshkey.private`  
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAxkkOE83W2cOT7IWhFc9aPaaQmQDdgzuXCv+ppZHa++buSkN+
+gg0tcr7Fw8NLGa5+Uzec2rEg0WmeevB13AIoYp0MZyETq46t+jk9puNwZwIt9XgB
+ZufGtZEwWbFWw/vVLNwOXBe4UWStGRWzgPpEeSv5Tb1VjLZIBdGphTIK22Amz6Zb
+ThMsiMnyJafEwJ/T8PQO3myS91vUHEuoOMAzoUID4kN0MEZ3+XahyK0HJVq68KsV
+ObefXG1vvA3GAJ29kxJaqvRfgYnqZryWN7w3CHjNU4c/2Jkp+n8L0SnxaNA+WYA7
+jiPyTF0is8uzMlYQ4l1Lzh/8/MpvhCQF8r22dwIDAQABAoIBAQC6dWBjhyEOzjeA
+J3j/RWmap9M5zfJ/wb2bfidNpwbB8rsJ4sZIDZQ7XuIh4LfygoAQSS+bBw3RXvzE
+pvJt3SmU8hIDuLsCjL1VnBY5pY7Bju8g8aR/3FyjyNAqx/TLfzlLYfOu7i9Jet67
+xAh0tONG/u8FB5I3LAI2Vp6OviwvdWeC4nOxCthldpuPKNLA8rmMMVRTKQ+7T2VS
+nXmwYckKUcUgzoVSpiNZaS0zUDypdpy2+tRH3MQa5kqN1YKjvF8RC47woOYCktsD
+o3FFpGNFec9Taa3Msy+DfQQhHKZFKIL3bJDONtmrVvtYK40/yeU4aZ/HA2DQzwhe
+ol1AfiEhAoGBAOnVjosBkm7sblK+n4IEwPxs8sOmhPnTDUy5WGrpSCrXOmsVIBUf
+laL3ZGLx3xCIwtCnEucB9DvN2HZkupc/h6hTKUYLqXuyLD8njTrbRhLgbC9QrKrS
+M1F2fSTxVqPtZDlDMwjNR04xHA/fKh8bXXyTMqOHNJTHHNhbh3McdURjAoGBANkU
+1hqfnw7+aXncJ9bjysr1ZWbqOE5Nd8AFgfwaKuGTTVX2NsUQnCMWdOp+wFak40JH
+PKWkJNdBG+ex0H9JNQsTK3X5PBMAS8AfX0GrKeuwKWA6erytVTqjOfLYcdp5+z9s
+8DtVCxDuVsM+i4X8UqIGOlvGbtKEVokHPFXP1q/dAoGAcHg5YX7WEehCgCYTzpO+
+xysX8ScM2qS6xuZ3MqUWAxUWkh7NGZvhe0sGy9iOdANzwKw7mUUFViaCMR/t54W1
+GC83sOs3D7n5Mj8x3NdO8xFit7dT9a245TvaoYQ7KgmqpSg/ScKCw4c3eiLava+J
+3btnJeSIU+8ZXq9XjPRpKwUCgYA7z6LiOQKxNeXH3qHXcnHok855maUj5fJNpPbY
+iDkyZ8ySF8GlcFsky8Yw6fWCqfG3zDrohJ5l9JmEsBh7SadkwsZhvecQcS9t4vby
+9/8X4jS0P8ibfcKS4nBP+dT81kkkg5Z5MohXBORA7VWx+ACohcDEkprsQ+w32xeD
+qT1EvQKBgQDKm8ws2ByvSUVs9GjTilCajFqLJ0eVYzRPaY6f++Gv/UVfAPV4c+S0
+kAWpXbv5tbkkzbS0eaLPTKgLzavXtQoTtKwrjpolHKIHUz6Wu+n4abfAIRFubOdN
+/+aLoRQ0yBDRbdXMsZN/jvY44eM+xRLdRVyMmdPtP8belRi2E2aEzA==
+-----END RSA PRIVATE KEY-----
+```
+
+复制该文件所有内容  
+> 就是上面的，BEGIN和END那些也复制  
+
+**接下来回到自己电脑**  
+`cd ~/.ssh`  
+自己创建一个文件用来放复制的内容，这里用的是vim  
+`touch id_rsa_bandit14`  
+`chmod 600 id_rsa_bandit14` # 这里要把私钥文件的权限设置一下，不然登录的时候因为权限太开放用不了  
+`vim id_rsa_bandit14`  
+按`i`然后右键即可粘贴，然后按`Esc`再输入`:wq`即可保存退出  
+
+然后创建并编辑`config`文件  
+`touch  config`  
+`chmod  600  config`  
+`vim config`  
+
+```
+# 这一段是确保你github的私钥能正常使用
+Host         github.com
+HostName     github.com
+User         Soul-Charge   # 当然用户名写自己的
+IdentityFile ~/.ssh/id_rsa
+
+# 这一段就是登录bandit14的私钥
+Host         bandit.labs.overthewire.org
+HostName     bandit.labs.overthewire.org
+User         bandit14
+IdentityFile ~/.ssh/id_rsa_bandit14
+```
+
+`cat /etc/bandit_pass/bandit14`  
+> 登录上bandit14以后就能看密码了（有什么必要吗？  
+
+### 密码
+
+```
+fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
+```
+
+## Level 14 -> Level 15
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 15 -> Level 16
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 16 -> Level 17
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 17 -> Level 18
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 18 -> Level 19
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 19 -> Level 20
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 20 -> Level 21
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
