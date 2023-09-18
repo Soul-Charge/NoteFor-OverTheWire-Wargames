@@ -886,11 +886,41 @@ fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
 
 ### 原文翻译分析
 
+> The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
+
+> 要获取下个level的密码，你需要把当前level的密码发送到当前level的`localhost`主机的`30000`端口上，然后会返回下一level的密码
+
 ### 相关知识
+
+`telnet`
 
 ### 具体操作
 
+`telnet localhost 30000`  
+
+```Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+```
+
+接下来直接粘贴密码，以下是完整通信过程  
+
+```
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
+Correct!
+jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
+
+Connection closed by foreign host.
+```
+
 ### 密码
+
+```
+jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
+```
 
 ## Level 15 -> Level 16
 
