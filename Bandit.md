@@ -1202,11 +1202,47 @@ hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
 
 ### 原文翻译分析
 
+> The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.   
+
+> 下level的密码就在home目录的readme文件里，但是有个货把你的.bashrc改了，搞得你一登录就登出  
+
 ### 相关知识
+
+问ChatGPT3.5:linux系统上，如何在通过ssh登录的同时运行命令  
+GPT3.5:  
+在Linux系统上，您可以使用SSH来远程登录到另一台计算机，并在登录时执行命令。有两种主要的方法可以实现这一目标：  
+
+使用SSH的命令行选项：  
+您可以在SSH命令中使用以下方式来在登录时执行命令：  
+
+```bash
+ssh user@hostname 'command'
+```
+
+其中：  
+- `user` 是远程主机上的用户名。
+- `hostname` 是远程主机的主机名或IP地址。
+- `command` 是要在远程主机上执行的命令。
+
+例如，如果要远程登录到主机 `example.com` 并执行 `ls` 命令，您可以这样做：
+
+```bash
+ssh user@example.com 'ls'
+```
+
+这将登录到远程主机，并在登录后立即执行 `ls` 命令，然后显示结果并退出。
 
 ### 具体操作
 
+ssh登录的同时运行命令了解一下(￣▽￣)"  
+`ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"`  
+这样做只会在连接后自动执行命令获得结果后退出  
+
 ### 密码
+
+```
+awhqfNnAbc1naukrpqDYcF95h7HoMTrC
+```
 
 ## Level 19 -> Level 20
 
