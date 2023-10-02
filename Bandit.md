@@ -1287,6 +1287,131 @@ VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 
 ### 原文翻译分析
 
+> There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument.  
+> It then reads a line of text from the connection and compares it to the password in the previous level (bandit20).  
+> If the password is correct, it will transmit the password for the next level (bandit21).  
+> NOTE: Try connecting to your own network daemon to see if it works as you think  
+
+> home目录有一个setuid的可执行文件，它会在您作为命令行参数指定的端口上与 localhost 建立连接  
+> 然后，它会从连接中读取一行文本，并将其与上一级密码（bandit20）进行比较。
+> 如果密码正确，它将发送下一级密码（bandit21）。
+> 提示：尝试连接到您自己的网络守护进程，看看它是否如您所想的那样工作（等下再来改翻译
+
+### 相关知识
+
+`nc -l`  
+多终端窗口：`screen`, `tmux`  
+前后台切换：`job control`  
+> 最重要的可能还是™看仔细一点程序的用法描述(ノ｀Д)ノ  
+
+### 具体操作
+
+```
+Usage: ./suconnect <portnumber>
+This program will connect to the given port on localhost using TCP. If it receives the correct password from the other side, the next password is transmitted back.
+该程序将使用 TCP 连接到 localhost 上的指定端口。如果从对方接收到正确的密码，就会回传下一个密码。
+```
+
+也就是说，这个程序要首先连接到一个端口，等待对方发来bandit20的密码，然后才显示bandit21的密码  
+可以用`nc -l 端口号`来开启对一个端口的监听，并发送消息  
+下面这里直接把全过程全粘贴了，^Z是按下了`Ctrl + Z`的结果(就是挂起  ，`fg`是把挂起进程切回前台运行  
+
+```
+bandit20@bandit:~$ nc -l 2333
+^Z
+[1]+  Stopped                 nc -l 2333
+bandit20@bandit:~$ ./suconnect 2333
+^Z
+[2]+  Stopped                 ./suconnect 2333
+bandit20@bandit:~$ fg %1
+nc -l 2333
+VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+^Z
+[1]+  Stopped                 nc -l 2333
+bandit20@bandit:~$ fg %2
+./suconnect 2333
+Read: VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+Password matches, sending next password
+bandit20@bandit:~$
+```
+
+下面的是走偏了的思路，我舍不得删掉qwq，主要是舍不得那个匹配只留下端口号和把一堆端口号作为参数发过去的实现思路  
+
+---
+
+题目个人理解：跟你说什么用一个程序对一个端口发密码就完了，结果tm不告诉你哪个端口，  
+nmap全部扫一下虽然不算特别多，但是总不能一个个试吧，最sb的是它其他端口会卡住你，  
+所以，直接全部试一遍，但是用一个超时自动断开  `timeout 5`(5秒无反应就自动断开)  
+然后等结束，看看反应  
+
+`nmap -p0-65535 localhost | grep "^[0-9]*" -o | xargs -I {}; timeout 5 ./suconnect {}`  
+`nmap -p0-65535 localhost | grep "^[0-9]*" -o | xargs -I {} bash -c 'echo {}; timeout 5 ./suconnect {}`  
+> 下面一行是一个优化的，可以看到是哪一个端口的反应，问就是GPT教的  
+
+
+```
+22
+Read: SSH-2.0-OpenSSH_8.9p1
+ERROR: This doesn't match the current password!
+1111
+1234
+1840
+2220
+Read: SSH-2.0-OpenSSH_8.9p1
+ERROR: This doesn't match the current password!
+2230
+Read: SSH-2.0-OpenSSH_8.9p1
+ERROR: This doesn't match the current password!
+2231
+Read: SSH-2.0-OpenSSH_8.9p1
+ERROR: This doesn't match the current password!
+2232
+Read: SSH-2.0-OpenSSH_8.9p1
+ERROR: This doesn't match the current password!
+4091
+Read: Password:
+ERROR: This doesn't match the current password!
+4321
+Read: 100 phrack search daemon, type help for more information
+ERROR: This doesn't match the current password!
+8000
+30000
+30001
+30002
+Read: I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secr
+ERROR: This doesn't match the current password!
+31046
+31518
+31691
+31790
+31960
+60917
+```
+
+可以看出来30002就是那个交密码的端口，因为后面那一堆话  
+
+---
+
+### 密码
+
+```
+NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
+```
+
+## Level 21 -> Level 22
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 22 -> Level 23
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
