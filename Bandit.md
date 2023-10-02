@@ -1248,11 +1248,40 @@ awhqfNnAbc1naukrpqDYcF95h7HoMTrC
 
 ### 原文翻译分析
 
+> To gain access to the next level, you should use the setuid binary in the homedirectory.   
+> Execute it without arguments to find out how to use it.  
+> The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.  
+
+> 为了获得通往下个level的权限，你应该使用home目录的，setuid二进制可执行文件(和setuid有关，可以给你提权)  
+> 不带参数直接运行这个文件，你会知道怎么用它的  
+> 使用这个文件后你能在老位置(/etc/bandit_pass)，找到密码  
+
 ### 相关知识
+
+`setuid`  
+其实你根本不需要知道这是什么，但凡仔细看看英文都知道这玩意用就行了（  
 
 ### 具体操作
 
+`./bandit20-do`  
+
+```
+Run a command as another user.
+  Example: ./bandit20-do id
+```
+
+所以这玩意就是你输个命令作为参数给它，然后就能作为另一个用户来运行命令（看密码）  
+`./bandit20-do cat /etc/bandit_pass/bandit20`  
+
+```
+VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+```
+
 ### 密码
+
+```
+VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+```
 
 ## Level 20 -> Level 21
 
