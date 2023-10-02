@@ -1166,11 +1166,34 @@ VwOSWtCA7lRKkTfbr2IDh6awj9RNZM5e
 
 ### 原文翻译分析
 
+> There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new  
+> NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19  
+
+> home目录下有两个文件：passwords.old 和 passwords.new。下个level的密码是这两个文件之间唯一被改动的行  
+> 注意：如果你搞定这关了，但是连接到bandit19的时候却看到一个拜拜了您嘞(Byebye!)，这跟bandit19有关，去下一个看看。  
+
 ### 相关知识
+
+`diff`  
 
 ### 具体操作
 
+`diff passwords.old passwords.new`  
+
+```
+42c42
+< glZreTEH1V3cGKL6g4conYqZqaEj0mte
+---
+> hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
+```
+
+下面那个就是该过以后的，就是密码  
+
 ### 密码
+
+```
+hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
+```
 
 ## Level 18 -> Level 19
 
