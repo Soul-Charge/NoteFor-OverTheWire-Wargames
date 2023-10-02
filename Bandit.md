@@ -1005,6 +1005,9 @@ JQttfApK4SeyHwDlI9SXGR50qclOAil1
 
 ### 相关知识
 
+`nmap`, `openssh s_client`, ssh多密钥管理  
+或许不需要： `grep`, `xargs`  
+
 ### 具体操作
 
 > `-pn-n`就是指定扫描端口范围，如果不指定要扫描的端口，Nmap默认扫描从1到1024再加上nmap-services列出的端口  
