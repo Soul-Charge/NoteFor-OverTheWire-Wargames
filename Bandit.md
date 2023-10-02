@@ -978,6 +978,9 @@ Correct!
 JQttfApK4SeyHwDlI9SXGR50qclOAil1
 ```
 
+
+
+
 ### 密码
 
 ```
@@ -988,11 +991,176 @@ JQttfApK4SeyHwDlI9SXGR50qclOAil1
 
 ### 原文翻译分析
 
+> The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000.  
+> First find out which of these ports have a server listening on them.  
+> Then find out which of those speak SSL and which don’t.  
+> There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.  
+
+> 下个level的凭证(其实就是ssh key)可通过从当前level向主机的31000到32000范围的端口发送密码获得。  
+> 首先找到这些端口中哪些有服务在监听。  
+> 然后找出其中使用了SSL的。  
+> 只有一个服务会给你下个level的凭证，其他的只是复读机  
+> `server`翻译存疑  
+
+
 ### 相关知识
 
 ### 具体操作
 
+> `-pn-n`就是指定扫描端口范围，如果不指定要扫描的端口，Nmap默认扫描从1到1024再加上nmap-services列出的端口  
+> [关于nmap的参考](https://www.cnblogs.com/nmap/p/6232207.html)  
+检查SSL是问GPT问出来的，就是`pn-n`前面两个参数可以检查SSL  
+`nmap --script ssl-cert -p31000-32000 localhost`  
+
+```
+Starting Nmap 7.80 ( https://nmap.org ) at 2023-09-28 12:06 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00010s latency).
+Not shown: 996 closed ports
+PORT      STATE SERVICE
+31046/tcp open  unknown
+31518/tcp open  unknown
+| ssl-cert: Subject: commonName=localhost
+| Subject Alternative Name: DNS:localhost
+| Issuer: commonName=localhost
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2023-09-28T06:01:07
+| Not valid after:  2023-09-28T06:02:07
+| MD5:   3955 5f2c e723 4b38 8c8e 48d4 ef99 df37
+|_SHA-1: 0558 1969 324e a6c2 c886 137f 9ff3 1a81 64b5 3f9a
+31691/tcp open  unknown
+31790/tcp open  unknown
+| ssl-cert: Subject: commonName=localhost
+| Subject Alternative Name: DNS:localhost
+| Issuer: commonName=localhost
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2023-09-28T06:01:06
+| Not valid after:  2023-09-28T06:02:06
+| MD5:   337a 4e98 8f60 cb08 f702 f90f b4c5 7037
+|_SHA-1: 589b bee2 091f 3742 5900 071c 5622 8d01 1683 0549
+31960/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 3.31 seconds
+```
+
+可以看到31518和31790都有SSL，接下来都试一遍  
+`openssl s_client -quiet -connect localhost:31518`  
+
+```
+Can't use SSL_get_servername
+depth=0 CN = localhost
+verify error:num=18:self-signed certificate
+verify return:1
+depth=0 CN = localhost
+verify error:num=10:certificate has expired
+notAfter=Sep 28 06:02:07 2023 GMT
+verify return:1
+depth=0 CN = localhost
+notAfter=Sep 28 06:02:07 2023 GMT
+verify return:1
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+```
+
+很明显31518是复读机，试试31790(这时候按下`Ctrl + C`关掉和31518的连接  
+`openssl s_client -quiet -connect localhost:31790`  
+
+```
+Can't use SSL_get_servername
+depth=0 CN = localhost
+verify error:num=18:self-signed certificate
+verify return:1
+depth=0 CN = localhost
+verify error:num=10:certificate has expired
+notAfter=Sep 28 06:02:06 2023 GMT
+verify return:1
+depth=0 CN = localhost
+notAfter=Sep 28 06:02:06 2023 GMT
+verify return:1
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+Correct!
+```
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+```
+
+所以就得到bandit17的ssh key了  
+接下来把这个保存为`id_rsa_bandit17`，并且添加到配置文件  
+`vim ~/.ssh/config`  
+添加以下内容：  
+
+```
+Host         bandit.labs.overthewire.org
+HostName     bandit.labs.overthewire.org
+User         bandit17
+IdentityFile ~/.ssh/id_rsa_bandit17
+```
+
+> 其他细节看Level13 -> Level14
+
+---
+下面的是一个智熄操作，因为不知道怎么检测SSL，所以就打算把扫出来的端口全部连接一遍，用了一下grep过滤到只有端口  
+`nmap -p31000-32000 localhost | grep "^[0-9]*" -o`  
+
+```
+31046
+31518
+31691
+31790
+31960
+```
+
+然后是怎么把这些传到`s_client`，问了下GPT，可以用`xargs`  
+所以这就是我把这个智熄操作写下来的原因：`somecommand |xargs -item  command`详见菜鸟教程之类的  
+下面是GPT的：  
+
+
+如果您希望将 `grep` 的结果传递给 `openssl s_client -connect` 命令，可以使用 `xargs` 来执行此操作。下面是一个示例命令：  
+
+```bash
+nmap -p31000-32000 localhost | grep "^[0-9]*" -o | xargs -I {} openssl s_client -connect localhost:{}
+```
+
+在这个命令中，`xargs` 将 `grep` 的结果逐行传递给 `openssl s_client -connect` 命令，并使用 `{}` 占位符来插入每行的内容，以形成要连接的地址和端口。这将允许您使用 `openssl s_client` 连接到匹配的端口。  
+
+请注意，这假设 `grep` 命令在 `nmap` 扫描结果中找到了匹配的端口号。如果没有匹配项，`xargs` 将不会运行 `openssl s_client -connect` 命令。确保 `grep` 的正则表达式与您要匹配的端口号格式一致。  
+
 ### 密码
+
+```
+VwOSWtCA7lRKkTfbr2IDh6awj9RNZM5e
+```
 
 ## Level 17 -> Level 18
 
