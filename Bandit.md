@@ -1466,6 +1466,91 @@ WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
 
 ### 原文翻译分析
 
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+> NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints.
+
+> 基于时间的工作调度程序 cron 正在定期自动运行一个程序。查看 /etc/cron.d/ 中的配置，看看执行的是什么命令。
+
+> 注意：查看他人编写的 shell 脚本是一项非常有用的技能。本关卡的脚本故意做得简单易读。如果在理解脚本内容时遇到困难，请尝试执行脚本，查看脚本打印的调试信息。
+
+### 相关知识
+
+### 具体操作
+
+`cd /etc/cron.d/`  
+`ls`  
+
+```
+cronjob_bandit15_root  cronjob_bandit22  cronjob_bandit24       e2scrub_all  sysstat
+cronjob_bandit17_root  cronjob_bandit23  cronjob_bandit25_root  otw-tmp-dir
+```
+
+`cat cronjob_bandit23`  
+```
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+```
+
+`cat /usr/bin/cronjob_bandit23.sh`  
+目前为止都和上一关没什么主要的区别，但是运行的shell脚本这里开始不同，需要理解脚本内容  
+
+```bash
+#!/bin/bash
+
+myname=$(whoami) # 把变量myname赋值为当前用户名
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1) # 把变量mytarget赋值为根据变量myname计算出来的值
+
+# 下面两行都只是调用变量
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+如果不太懂这写的啥可以运行一下  
+`/usr/bin/cronjob_bandit23.sh`  
+
+```
+Copying passwordfile /etc/bandit_pass/bandit22 to /tmp/8169b67bd894ddbb4412f91573b38db3
+```
+
+看运行结果好像和上一关的一样，都是把密码写出来，但是你细看，为毛写的是bandit22的密码，这不bandit23运行的东西吗  
+因为该shell脚本里输出密码的部分用了变量，输出的密码根据运行该脚本的用户而决定  
+看上面代码写的注释吧（  
+
+**TL;DR** 
+总之因为没有bandit23的身份，自己运行这个脚本只能打出现在bandit22的密码  
+但是，因为这个脚本是被crontab定时运行的，所以密码是已经被存到一个位置了的，找到那个位置就行  
+那么只要把计算出变量`mytarget`这一行复制一下，然后把`$myname`改成`bandit23`就能得到bandit23用户运行该脚本时的位置了  
+
+`echo I am user bandit23 | md5sum | cut -d ' ' -f 1`  
+这是结果：8ca319486bfbbc3663ea0fbe81326349  
+`cat /tmp/8ca319486bfbbc3663ea0fbe81326349`  
+
+```
+QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
+```
+
+### 密码
+
+```
+QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
+```
+
+## Level 23 -> Level 24
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 24 -> Level 25
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
