@@ -1476,6 +1476,9 @@ WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
 
 ### 相关知识
 
+`Linux crontab`  
+`Linux shell脚本`  
+
 ### 具体操作
 
 `cd /etc/cron.d/`  
