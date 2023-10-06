@@ -1332,6 +1332,7 @@ bandit20@bandit:~$ fg %2
 ./suconnect 2333
 Read: VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 Password matches, sending next password
+NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
 bandit20@bandit:~$
 ```
 
@@ -1402,9 +1403,17 @@ NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
 
 ### 原文翻译分析
 
+
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.  
+
+> 基于时间的工作调度程序 cron 正在定期自动运行一个程序。查看 /etc/cron.d/ 中的配置，看看执行的是什么命令。  
+
 ### 相关知识
 
 ### 具体操作
+
+
+
 
 ### 密码
 
