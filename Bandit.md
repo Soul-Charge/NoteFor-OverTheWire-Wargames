@@ -1410,12 +1410,57 @@ NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
 
 ### 相关知识
 
+`Linux cron`  
+[参考资料](https://www.runoob.com/w3cnote/linux-crontab-tasks.html)  
+
 ### 具体操作
 
+先照着提示看看有什么就行了  
+`cd /etc/cron.d`  
+`ls`  
 
+```
+cronjob_bandit15_root  cronjob_bandit22  cronjob_bandit24       e2scrub_all  sysstat
+cronjob_bandit17_root  cronjob_bandit23  cronjob_bandit25_root  otw-tmp-dir
+```
 
+看一下属于bandit22的  
+`cat cronjob_bandit22`  
+
+```
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+```
+
+这是个bandit22的crontab文件，表示在系统启动的时候，以bandit22的身份运行`/usr/bin/cronjob_bandit22.sh`，并且丢弃所有输出  
+第二行是每分钟都以bandit22的身份运行，细节同上  
+所以看一下它运行的sh脚本是什么  
+
+`cat /usr/bin/cronjob_bandit22.sh`  
+
+```
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+
+可以看到该脚本把bandit22的密码输出到一个文件里了，看一下就行  
+
+`cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv`  
+
+```
+WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+```
+
+至于密码明明就在老位置，为什么不直接看，因为没权限┑(￣Д ￣)┍  
+明明定时任务也是以bandit22的身份运行的  
+不懂，放着先_(:з)∠)_  
 
 ### 密码
+
+```
+WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+```
 
 ## Level 22 -> Level 23
 
