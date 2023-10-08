@@ -1544,11 +1544,50 @@ QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
 
 ### 原文翻译分析
 
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.  
+> NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!  
+> NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…  
+
+> 基于时间的工作调度程序 cron 正在定期自动运行一个程序。查看 /etc/cron.d/ 中的配置，看看执行的是什么命令。  
+> 注 1：该level要要你自己写一个shell 脚本哩。这是非常重要的一步，当你通过这一关时，你应该为自己感到骄傲！（迫真  
+> 注 2：对了哟，你的脚本执行完就会被删掉了，所以注意自己存一下哈  
+
 ### 相关知识
 
 ### 具体操作
 
+```
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+```
+
+`cd /var/spool/bandit24/foo`  
+`vim a`  
+切到可以运行脚本的文件夹，用vim创建一个shell脚本，记得给脚本加可执行权限  
+
+```bash
+#!/bin/bash
+mkdir /tmp/Soul
+cat /etc/bandit_pass/bandit24 > /tmp/Soul/bandit24
+```
+
+`chmod -x a`  
+一定要加  
+一定要加  
+一定要加  
+
+然后等就行了，可以`cat a`看一下文件还在不在，不在了就是执行了，然后去看看密码有没有生成  
+`cat /tmp/Soul/bandit24`  
+
+```
+VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
+```
+
 ### 密码
+
+```
+VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
+```
 
 ## Level 24 -> Level 25
 
