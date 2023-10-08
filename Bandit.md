@@ -1637,13 +1637,119 @@ p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
 
 ### 原文翻译分析
 
+> Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.
+
+> 从bandit25登录到bandit26本应该很容易的...，但是bandit26的shell不是/bin/bash/，而是其他的什么，找到它是什么，以及怎么摆脱它。
+
+### 相关知识
+
+`more`  
+在`more`的显示部分文本的状态下，按`v`键可以进入`vi`  
+![more](_v_images/20231008232035163_14416.png)  
+
+按下`v`后  
+![vi](_v_images/20231008232101622_3420.png)
+
+`vi`  
+`vi`可以运行外部命令，`:!command`  
+`vi`运行命令时使用的貌似是用户的默认shell，但是可以更改vi里使用的shell，以bash为例，`(:set shell=/bin/bash)`（必须系统有）  
+
+
+### 具体操作
+
+bandit25的home目录下就有bandit26的ssh key，具体添加和多密钥管理不想第三次重复了，直接看前面的  
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEApis2AuoooEqeYWamtwX2k5z9uU1Afl2F8VyXQqbv/LTrIwdW
+pTfaeRHXzr0Y0a5Oe3GB/+W2+PReif+bPZlzTY1XFwpk+DiHk1kmL0moEW8HJuT9
+/5XbnpjSzn0eEAfFax2OcopjrzVqdBJQerkj0puv3UXY07AskgkyD5XepwGAlJOG
+xZsMq1oZqQ0W29aBtfykuGie2bxroRjuAPrYM4o3MMmtlNE5fC4G9Ihq0eq73MDi
+1ze6d2jIGce873qxn308BA2qhRPJNEbnPev5gI+5tU+UxebW8KLbk0EhoXB953Ix
+3lgOIrT9Y6skRjsMSFmC6WN/O7ovu8QzGqxdywIDAQABAoIBAAaXoETtVT9GtpHW
+qLaKHgYtLEO1tOFOhInWyolyZgL4inuRRva3CIvVEWK6TcnDyIlNL4MfcerehwGi
+il4fQFvLR7E6UFcopvhJiSJHIcvPQ9FfNFR3dYcNOQ/IFvE73bEqMwSISPwiel6w
+e1DjF3C7jHaS1s9PJfWFN982aublL/yLbJP+ou3ifdljS7QzjWZA8NRiMwmBGPIh
+Yq8weR3jIVQl3ndEYxO7Cr/wXXebZwlP6CPZb67rBy0jg+366mxQbDZIwZYEaUME
+zY5izFclr/kKj4s7NTRkC76Yx+rTNP5+BX+JT+rgz5aoQq8ghMw43NYwxjXym/MX
+c8X8g0ECgYEA1crBUAR1gSkM+5mGjjoFLJKrFP+IhUHFh25qGI4Dcxxh1f3M53le
+wF1rkp5SJnHRFm9IW3gM1JoF0PQxI5aXHRGHphwPeKnsQ/xQBRWCeYpqTme9amJV
+tD3aDHkpIhYxkNxqol5gDCAt6tdFSxqPaNfdfsfaAOXiKGrQESUjIBcCgYEAxvmI
+2ROJsBXaiM4Iyg9hUpjZIn8TW2UlH76pojFG6/KBd1NcnW3fu0ZUU790wAu7QbbU
+i7pieeqCqSYcZsmkhnOvbdx54A6NNCR2btc+si6pDOe1jdsGdXISDRHFb9QxjZCj
+6xzWMNvb5n1yUb9w9nfN1PZzATfUsOV+Fy8CbG0CgYEAifkTLwfhqZyLk2huTSWm
+pzB0ltWfDpj22MNqVzR3h3d+sHLeJVjPzIe9396rF8KGdNsWsGlWpnJMZKDjgZsz
+JQBmMc6UMYRARVP1dIKANN4eY0FSHfEebHcqXLho0mXOUTXe37DWfZza5V9Oify3
+JquBd8uUptW1Ue41H4t/ErsCgYEArc5FYtF1QXIlfcDz3oUGz16itUZpgzlb71nd
+1cbTm8EupCwWR5I1j+IEQU+JTUQyI1nwWcnKwZI+5kBbKNJUu/mLsRyY/UXYxEZh
+ibrNklm94373kV1US/0DlZUDcQba7jz9Yp/C3dT/RlwoIw5mP3UxQCizFspNKOSe
+euPeaxUCgYEAntklXwBbokgdDup/u/3ms5Lb/bm22zDOCg2HrlWQCqKEkWkAO6R5
+/Wwyqhp/wTl8VXjxWo+W+DmewGdPHGQQ5fFdqgpuQpGUq24YZS8m66v5ANBwd76t
+IZdtF5HXs2S5CADTwniUS5mX1HO9l5gUkk+h0cH5JnPtsMCnAUM+BRY=
+-----END RSA PRIVATE KEY-----
+```
+
+加了bandit26的密钥以后就能登录了，只是，给个字符画以后就给踢出来了qwq  
+先把自己终端的窗口高度拉小，只有一两行那样  
+然后登录到bandit26，之后会触发`more`  
+![more](_v_images/20231008235620729_16992.png)  
+这时候按`v`键，会进入`vi`  
+然后可以把窗口调回去了  
+![vi](_v_images/20231008235758881_18254.png)  
+
+接下来把`vi`的shell改成bash  
+`:set shell=/bin/bash`  
+
+然后从vi里面启动shell，打开一个终端  
+`:shell`  
+![shell](_v_images/20231009000221135_493.png)  
+
+不管怎样先看密码  
+`cat /etc/bandit_pass/bandit26`  
+
+```
+c7GvcKlw9mC7aUQaPx7nwFstuAIBw1o1
+```
+
+然后先别退，直接跟着继续搞27，因为这里连着的，退了搞27又要重来上面这些  
+
+### 密码
+
+```
+c7GvcKlw9mC7aUQaPx7nwFstuAIBw1o1
+```
+
+## Level 26 -> Level 27
+
+### 原文翻译分析
+
+> Good job getting a shell! Now hurry and grab the password for bandit27!
+
+> 好耶你搞到shell力！，现在快去搞bandit27的密码！  
+
 ### 相关知识
 
 ### 具体操作
 
+`ls`  
+
+```
+bandit27-do  text.txt
+```
+
+`./bandit27-do cat /etc/bandit_pass/bandit27`  
+
+```
+YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
+```
+
 ### 密码
 
-## Level 26 -> Level 27
+```
+YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
+```
+
+## Level 27 -> Level 28
 
 ### 原文翻译分析
 
