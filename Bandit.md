@@ -1593,6 +1593,60 @@ VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
 
 ### 原文翻译分析
 
+> A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.  
+> You do not need to create new connections each time  
+
+> 一个守护进程在 30002 端口监听，如果给你 bandit24 的密码和一个 4 位数的数字密码，它就会告诉你 bandit25 的密码。
+> 除了遍历所有 10000 种组合（称为 "暴力破解"）之外，没有其他办法获取密码。  
+> 小提示：不用每次都创建新的连接。  
+
+### 相关知识
+
+### 具体操作
+
+`for i in {0..9999}; do echo $i ; echo VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar $i | nc -q 0 localhost 30002; done`  
+一开始我是这样做的，然后因为每一次尝试都要重新开启连接，所以速度奇慢。  
+
+那么为什么不直接把所有可能性作为一个输入传给`nc`呢  
+所以先在`/tmp`里面创建一个文件夹用来写文件  
+`mkdir /tmp/Soul`  
+`cd /tmp/Soul`  
+
+接下来用一个循环把密码加上一个空格，和所有可能的四位数字输出到一个文件  
+`for i in {1000..9999}; do echo VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar $i >> a.txt; done`  
+
+然后用`nc`连接，并且把输入重定向到刚才的文件，并且把输出重定向到一个文件  
+（不然几千条Wrong!你看什么，这样可以完事后直接`/pass`搜就能搜到密码的位置  
+`nc localhost 30002 < a.txt > out.txt`  
+
+```
+/pass
+...skipping
+Wrong! Please enter the correct pincode. Try again.
+Correct!
+The password of user bandit25 is p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
+```
+
+### 密码
+
+```
+p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
+```
+
+## Level 25 -> Level 26
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 26 -> Level 27
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
