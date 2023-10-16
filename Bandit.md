@@ -1984,11 +1984,46 @@ xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
 
 ### 原文翻译分析
 
+> There is a git repository at ssh://bandit30-git@localhost/home/bandit30-git/repo via the port 2220. The password for the user bandit30-git is the same as for the user bandit30.  
+Clone the repository and find the password for the next level.  
+
+> (ˉ▽ˉ；)...  
+
 ### 相关知识
+
+`git tag`  
+[更多关于git 标签的参考](https://zhuanlan.zhihu.com/p/622331227)  
 
 ### 具体操作
 
+```
+cat README.md
+just an epmty file... muahaha
+```
+
+> 《muhaha》  
+
+上面两关的都试了也找不到，然后...git的标签了解一下  
+`git tag`  
+
+```
+secret
+```
+
+`git show secret`  
+
+```
+OoffzGDlzhAlerFJ2cAiz1D41JW1Mhmt
+```
+
+这应该是个附注标签，把密码藏标签里了  
+
+
 ### 密码
+
+```
+OoffzGDlzhAlerFJ2cAiz1D41JW1Mhmt
+```
 
 ## Level 31 -> Level 32
 
