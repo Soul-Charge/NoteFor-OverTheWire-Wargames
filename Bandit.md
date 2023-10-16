@@ -1753,6 +1753,82 @@ YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
 
 ### 原文翻译分析
 
+> There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo via the port 2220. The password for the user bandit27-git is the same as for the user bandit27.  
+> Clone the repository and find the password for the next level.  
+
+> 经由2220端口，ssh://bandit27-git@localhost/home/bandit27-git/repo，有一个git仓库，用户bandit27-git的密码和用户bandit27的密码一样  
+> 克隆仓库找密码  
+
+### 相关知识
+
+`git`, `git clone`  
+`git clone`使用ssh并且指定端口，方法是在主机名后面加上`:端口号`  
+[可以参考这个](https://zhuanlan.zhihu.com/p/337388772)  
+
+### 具体操作
+
+`mkdir /tmp/Soul`  
+`cd /tmp/Soul`  
+`git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo`  
+
+```
+Cloning into 'repo'...
+The authenticity of host '[localhost]:2220 ([127.0.0.1]:2220)' can't be established.
+ED25519 key fingerprint is SHA256:C2ihUBV7ihnV1wUXRb4RrEcLfXC5CXlhmAAM/urerLY.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])?
+```
+
+输入yes  
+
+```
+                         _                     _ _ _
+                        | |__   __ _ _ __   __| (_) |_
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+
+
+                      This is an OverTheWire game server.
+            More information on http://www.overthewire.org/wargames
+
+bandit27-git@localhost's password:
+```
+
+粘贴bandit27的密码：YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS  
+
+```
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+```
+
+`cd repo/`  
+`cat README`  
+`The password to the next level is: AVanL161y9rsbcJIsFHuw35rjaOM19nR`  
+
+### 密码
+
+```
+AVanL161y9rsbcJIsFHuw35rjaOM19nR
+```
+
+## Level 28 -> Level 29
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 29 -> Level 30
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
