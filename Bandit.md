@@ -1819,11 +1819,75 @@ AVanL161y9rsbcJIsFHuw35rjaOM19nR
 
 ### 原文翻译分析
 
+> There is a git repository at ssh://bandit28-git@localhost/home/bandit28-git/repo via the port 2220. The password for the user bandit28-git is the same as for the user bandit28.  
+> Clone the repository and find the password for the next level.  
+
+> 经由2220端口，ssh://bandit28-git@localhost/home/bandit28-git/repo，有一个git仓库，用户bandit28-git的密码和用户bandit28的密码一样  
+> 克隆仓库找密码  
+> 不是这两个除了数字7变成8，一点变化没有，太水了吧  
+
 ### 相关知识
+
+`git`, `git clone`, `git reset --hard`  
 
 ### 具体操作
 
+创建文件夹到clone的步骤都和上一关一样所以不赘述了，只说不同的地方  
+`cat README.md`  
+
+```
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx
+```
+
+很明显这个文件被改过了，所以看一下git仓库的历史，找到修改前的提交回溯就行了  
+`git log`  
+
+```
+commit 14f754b3ba6531a2b89df6ccae6446e8969a41f3 (HEAD -> master, origin/master, origin/HEAD)
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu Oct 5 06:19:41 2023 +0000
+
+    fix info leak
+
+commit f08b9cc63fa1a4602fb065257633c2dae6e5651b
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu Oct 5 06:19:41 2023 +0000
+
+    add missing data
+
+commit a645bcc508c63f081234911d2f631f87cf469258
+Author: Ben Dover <noone@overthewire.org>
+Date:   Thu Oct 5 06:19:41 2023 +0000
+
+    initial commit of README.md
+```
+
+就三个提交，看描述，瞎猜都能猜到是第二次提交写了密码上去  
+复制第二次提交的哈希值，然后用`git reset --hard 哈希值`回溯版本  
+`git reset --hard f08b9cc63fa1a4602fb065257633c2dae6e5651b`  
+`cat README.md`  
+
+```
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S
+```
+
 ### 密码
+
+```
+tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S
+```
 
 ## Level 29 -> Level 30
 
