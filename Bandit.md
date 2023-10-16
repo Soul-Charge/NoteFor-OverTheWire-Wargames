@@ -1893,6 +1893,117 @@ tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S
 
 ### 原文翻译分析
 
+> There is a git repository at ssh://bandit29-git@localhost/home/bandit29-git/repo via the port 2220. The password for the user bandit29-git is the same as for the user bandit29.  
+> Clone the repository and find the password for the next level.  
+
+>  不想翻译了，除了8变成9其他都一样，没必要翻译了  
+
+### 相关知识
+
+`git branch -a`  
+ `git checkout -b 远程分支`  
+
+### 具体操作
+
+一样，相同的创建文件夹clone仓库什么的不说了  
+`cat README.md`  
+
+```
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: <no passwords in production!>
+```
+
+`git log`  
+
+```
+commit 4364630b3b27c92aff7b36de7bb6ed2d30b60f88 (HEAD -> master, origin/master, origin/HEAD)
+Author: Ben Dover <noone@overthewire.org>
+Date:   Thu Oct 5 06:19:43 2023 +0000
+
+    fix username
+
+commit fca34ddb7d1ff1f78df36538252aea650b0b040d
+Author: Ben Dover <noone@overthewire.org>
+Date:   Thu Oct 5 06:19:43 2023 +0000
+
+    initial commit of README.md
+```
+
+看这历史，这个分支根本没密码，那个`fix username`真的只是改了下用户名（问就是我看过了  
+`git branch`  
+
+```
+* master
+```
+
+现在仓库也没有别的分支，能想到的关于这个仓库藏东西的就是远程仓库了  
+`git branch -a`  
+
+```
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+  remotes/origin/sploits-dev
+```
+
+其中，`remotes/origin/master`就是当前指向的分支，所以不用看了，看看dev那个  
+`git checkout -b dev remotes/origin/dev`  
+`ls`  
+
+```
+code  README.md
+```
+
+`cat README.md`  
+
+```
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
+```
+
+所以bandit30的密码就这个了，`sploits-dev`那个分支一样的，还有那个`code`文件夹也没东西，只有一个空的`gif2ascii.py`  
+
+### 密码
+
+```
+xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
+```
+
+## Level 30 -> Level 31
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 31 -> Level 32
+
+### 原文翻译分析
+
+### 相关知识
+
+### 具体操作
+
+### 密码
+
+## Level 32 -> Level 33
+
+### 原文翻译分析
+
 ### 相关知识
 
 ### 具体操作
