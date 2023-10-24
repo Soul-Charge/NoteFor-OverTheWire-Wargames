@@ -2112,8 +2112,41 @@ rmCBvG56y58BXzv98yZGdO7ATVL5dW8y
 
 ### 原文翻译分析
 
+> After all this git stuff its time for another escape. Good luck!
+> 搞了半天的git，现在搞点别的。
+
 ### 相关知识
+
+[Linux里shell下$](https://blog.csdn.net/u012114090/article/details/81123535)  
 
 ### 具体操作
 
+```
+bandit31@bandit:~$ cat /etc/passwd | grep bandit32
+bandit32:x:11032:11032:bandit level 32:/home/bandit32:/home/bandit32/uppershell
+bandit31@bandit:~$ cat /home/bandit32/uppershell
+cat: /home/bandit32/uppershell: Permission denied
+```
+
+bandit32的shell被改了，但是看不了那个uppershell具体是什么  
+登录时`more`也触发不了  
+然后，懵逼了半天去discord问，看到个$才想起什么，  
+我刚刚还写shell脚本用来生成标题...`$1`可以代表第一个参数，`$0`就是shell本身的名字  
+所以，字母被搞了就别输入字母呗，用符号你怎么转大写（  
+
+---
+
+`$0`  
+![shell](_v_images/20231024220945675_18044.png)  
+
+`cat /etc/bandit_pass/bandit33`  
+
+```
+odHo63fHiFqcWWJG9rLiLDtPm45KzUKy
+```
+
 ### 密码
+
+```
+odHo63fHiFqcWWJG9rLiLDtPm45KzUKy
+```
