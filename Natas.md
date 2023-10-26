@@ -11,6 +11,8 @@ Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
 ```
 
+## Level 0 -> Level 1
+
 用浏览器打开，填账号密码就行啦  
 然后嘛，下一关的密码就在注释里面，打开控制台就能看到了  
 > 浏览器按F12打开控制台  
@@ -28,10 +30,11 @@ You can find the password for the next level on this page.
 ```
 g9D9cREhslqBKtcA2uocGHPfMZVzeFK6
 ```
-## Level 0 -> Level 1
 
-> You can find the password for the next level on this page, but rightclicking has been blocked!
-> 合着我刚才那关用的右键->检查是吧(ˉ▽ˉ；)...
+## Level 1 -> Level 2
+
+> You can find the password for the next level on this page, but rightclicking has been blocked!  
+> 合着我刚才那关用的右键->检查是吧(ˉ▽ˉ；)...  
 
 还是一样，打开控制台就能找到，在注释里面  
 
@@ -45,14 +48,10 @@ g9D9cREhslqBKtcA2uocGHPfMZVzeFK6
 h4ubbcXrWqsTo7GGnnUMLppXbOogfBZ7
 ```
 
-## Level 1 -> Level 2
-
-### 密码
-
-```
-```
-
 ## Level 2 -> Level 3
+
+> There is nothing on this page  
+> 没有东西我找啥(ˉ▽ˉ；)...  
 
 ### 密码
 
