@@ -53,9 +53,51 @@ h4ubbcXrWqsTo7GGnnUMLppXbOogfBZ7
 > There is nothing on this page  
 > 没有东西我找啥(ˉ▽ˉ；)...  
 
+打开控制台，能看到有一个单像素大小的图片，当然密码不会在图片里，303B的大小感觉不会是隐写的。  
+
+```html
+<div id="content">
+There is nothing on this page
+<img src="files/pixel.png">
+</div>
+```
+
+然后呢，这个图片有什么特别的？它是一个提示，因为可以往前面看看，其他关是没有这个图片的  
+结合页面提示”这个页面什么都没有“所以，去看看这个图片的来源吧  
+控制台查看元素，右键图片src=""里的部分，在新标签页中打开  
+http://natas2.natas.labs.overthewire.org/files/pixel.png  
+把这个链接改一下，去掉pixel.png就行了  
+于是打开了natas2的文件目录页面  
+
+```
+Index of /files
+[ICO]	Name	Last modified	Size	Description
+[PARENTDIR]	Parent Directory	 	-	 
+[IMG]	pixel.png	2023-10-05 06:15	303	 
+[TXT]	users.txt	2023-10-05 06:15	145	 
+Apache/2.4.52 (Ubuntu) Server at natas2.natas.labs.overthewire.org Port 80
+```
+
+> 大概就是这样，我直接复制粘贴纯文本的，能看出来就行（  
+
+点击那个users.txt看看  
+
+```
+# username:password
+alice:BYNdCesZqW
+bob:jw2ueICLvT
+charlie:G5vCxkVV3m
+natas3:G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q
+eve:zo4mJWyNj2
+mallory:9urtcpzBmH
+```
+
+ok密码就在这  
+
 ### 密码
 
 ```
+G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q 
 ```
 
 ## Level 3 -> Level 4
