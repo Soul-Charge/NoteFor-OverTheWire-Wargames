@@ -97,14 +97,38 @@ ok密码就在这
 ### 密码
 
 ```
-G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q 
+G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q
 ```
 
 ## Level 3 -> Level 4
 
+> There is nothing on this page
+
+一打开，又是这个，意味着，当前页面别想找到密码了，但是这个地址下面应该是有东西的  
+看一下元素，这有个注释  
+No more information leaks!! Not even Google will find it this time...  
+怎么说好呢，他说Google也找不到，然后根据这个联想到`robots.txt`其实关于这个思路我还是觉得有点牵强，但是...  
+这关真的是靠`robots.txt`， 那就这个逻辑吧（  
+所以改一下链接，去看看`robots.txt`写了啥  
+http://natas3.natas.labs.overthewire.org/robots.txt  
+
+```
+User-agent: *
+Disallow: /s3cr3t/
+```
+
+好的，不然搜索引擎访问这个文件夹，那就去这个文件夹看看  
+http://natas3.natas.labs.overthewire.org/s3cr3t/  
+打开后会发现原来是一个文件目录，就和natas2一样，这里就不贴出来了，点users.txt就行了  
+
+```
+natas4:tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm
+```
+
 ### 密码
 
 ```
+tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm
 ```
 
 ## Level 4 -> Level 5
