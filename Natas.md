@@ -221,9 +221,34 @@ jmxSiH3SP6Sonf8dv66ng8v1cIEdjXWr
 
 ## Level 7 -> Level 8
 
+打开以后，只有两个链接文本  
+[Home](http://natas7.natas.labs.overthewire.org/index.php?page=home) [About](http://natas7.natas.labs.overthewire.org/index.php?page=about)  
+
+点开一个，页面会跳转一下，但没太大变化  
+[Home](http://natas7.natas.labs.overthewire.org/index.php?page=home) [About](http://natas7.natas.labs.overthewire.org/index.php?page=about)  
+this is the front page
+
+然后打开元素，能看到一个注释写了提示  
+hint: password for webuser natas8 is in /etc/natas_webpass/natas8  
+
+跟你说密码在服务器这个路径，有什么用？又不能登录到主机。  
+但是看一些这两个链接文本，跳转以后的地址：  http://natas7.natas.labs.overthewire.org/index.php?page=home  
+链接末端是给`index.php`传了一个参数`page=home`  
+所以试试把密码所在的路径作为参数传过去：http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8  
+直接就显示密码了  
+[关于get请求传递参数的更多内容可见这个链接](https://cloud.tencent.com/developer/article/2331610)  
+
+其他：  
+> 其实还可以把参数改一下，还可以查看natas7的密码，不过也就只能再看natas7的密码了，其他的都看不了  
+> Warning: include(/etc/natas_webpass/natas9): failed to open stream: Permission denied in /var/www/natas/natas7/index.php on line 21  
+> Warning: include(): Failed opening '/etc/natas_webpass/natas9' for inclusion (include_path='.:/usr/share/php') in /var/www/natas/natas7/index.php on line 21  
+
+> 至于为什么是`?page=`然后接参数，我也不知道，不会php，反正貌似page参数可以让php显示指定路径的文件的样子  
+
 ### 密码
 
 ```
+a6bZCNYwdKqN5cGP11ZdtPg0iImQQhAB
 ```
 
 ## Level 8 -> Level 9
