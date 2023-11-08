@@ -133,9 +133,23 @@ tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm
 
 ## Level 4 -> Level 5
 
+> Access disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"  
+> 禁止访问。您从""访问，而授权用户只能从 "http://natas5.natas.labs.overthewire.org/"访问。
+
+其实说的很清楚了，就是要从natas5来访问natas4，至于怎么访问，先打开natas5的页面  
+弹出登录框直接点取消  
+在这个未认证的页面打开控制台，使用js来跳转到natas4的页面  
+`window.location.href = 'http://natas4.natas.labs.overthewire.org/';`  
+等一会然后就跳转了，会弹出这个，密码的消息  
+
+```
+Access granted. The password for natas5 is Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD
+```
+
 ### 密码
 
 ```
+Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD
 ```
 
 ## Level 5 -> Level 6
