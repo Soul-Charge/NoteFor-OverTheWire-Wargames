@@ -178,9 +178,45 @@ fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR
 
 ## Level 6 -> Level 7
 
+![natas6](_v_images/20231108164926039_20627.png)  
+
+要填东西，要么是找到正确答案，要么是想办法绕过提交之类的，但是他都非常贴心的给了个源码链接了.......  
+打开一看，这一段的提示已经非常明显了...  
+
+```c++
+<?
+
+include "includes/secret.inc";
+
+    if(array_key_exists("submit", $_POST)) {
+        if($secret == $_POST['secret']) {
+        print "Access granted. The password for natas7 is <censored>";
+    } else {
+        print "Wrong secret";
+    }
+    }
+?>
+```
+
+> 实际上我不知道这是哪个语言的，反正是啥语言都不重要  
+
+把这个`includes/secret.inc`加到natas6的链接看看是什么就行了  
+http://natas6.natas.labs.overthewire.org/includes/secret.inc  
+
+```c++
+<?
+$secret = "FOEIUWGHFEEUHOFUOIU";
+?>
+```
+
+所以natas6要填入的内容就是这个`FOEIUWGHFEEUHOFUOIU`  
+填进去提交，↓  
+> Access granted. The password for natas7 is jmxSiH3SP6Sonf8dv66ng8v1cIEdjXWr  
+
 ### 密码
 
 ```
+jmxSiH3SP6Sonf8dv66ng8v1cIEdjXWr
 ```
 
 ## Level 7 -> Level 8
