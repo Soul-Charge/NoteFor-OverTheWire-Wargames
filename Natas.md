@@ -154,9 +154,26 @@ Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD
 
 ## Level 5 -> Level 6
 
+因为一开始打开natas5，没有让我登录，直接弹出一个：  
+> Access disallowed. You are not logged in  
+所以我还以为是隐藏了http1.1的那个basic认证登录，后来清理cookie，又打开natas5发现有输入账号密码的弹窗了，所以应该是没关系的  
+
+--- 
+
+上面都是废话（ 
+
+实际上就是，登录了，但是还是判断你没登录，然后我就登录了natas4和natas5，比较一下请求头，然后发现natas5有这一段，natas4没有  
+Cookie:loggedin=0  
+
+把这个放搜索引擎搜一下就大概知道了，改一下这个cookie的值就行了  
+浏览器开发者工具->应用->cookie  
+把那个0改成1，然后刷新页面  
+> Access granted. The password for natas6 is fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR  
+
 ### 密码
 
 ```
+fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR
 ```
 
 ## Level 6 -> Level 7
