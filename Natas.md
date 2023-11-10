@@ -251,9 +251,64 @@ a6bZCNYwdKqN5cGP11ZdtPg0iImQQhAB
 
 ## Level 8 -> Level 9
 
+又是提交secret，当然是看看[View sourcecode](http://natas8.natas.labs.overthewire.org/index-source.html)先  
+
+```php
+<?
+
+$encodedSecret = "3d3d516343746d4d6d6c315669563362";
+
+function encodeSecret($secret) {
+    return bin2hex(strrev(base64_encode($secret)));
+}
+
+if(array_key_exists("submit", $_POST)) {
+    if(encodeSecret($_POST['secret']) == $encodedSecret) {
+    print "Access granted. The password for natas9 is <censored>";
+    } else {
+    print "Wrong secret";
+    }
+}
+?>
+```
+
+
+`return bin2hex(strrev(base64_encode($secret)));`  
+很明显这一句就是加密secret的代码，去搜一下  
+`base64_encode`很明显就是base64编码  
+[`strrev()`](https://www.w3school.com.cn/php/func_string_strrev.asp)是反转字符串  
+[`bin2hex`](https://www.w3school.com.cn/php/func_string_bin2hex.asp)是转十六进制  
+> 上面两个也是链接，点击跳转到w3c的对应介绍  
+
+
+再看这个`if`，提交后的判断就是一句  
+`if(encodeSecret($_POST['secret']) == $encodedSecret)`  
+这一句会将提交的内容使用`encodeSecret()`函数编码，也就是上面那段，然后判断编码后的值是否和变量`$encodedSecret`相等  
+`$encodedSecret = "3d3d516343746d4d6d6c315669563362";`这个已经写出来了，所以接下来用这个值，反向计算就能得出编码前的值，然后填入即可  
+
+因为编码顺序是由内到外，所以解码的顺序得是由外到内  
+
+1. 恢复`bin2hex()`
+    1. 可以用php的`pack()`来转换回去
+        ```php
+        echo pack("H*","3d3d516343746d4d6d6c315669563362");
+        ```
+        当然怎么运行这一段...，要么自己有运行php的环境，要么还是[在线工具](https://code.y444.cn/php)（
+    2. 也可以直接用在线的[hex转字符串工具](https://www.lddgo.net/string/hex)
+    > 结果：==QcCtmMml1ViV3b
+2. 恢复`strrev()`
+    这个很简单，要么php在用一次这个函数，要么找字符串反转的在线工具  
+    > 结果：b3ViV1lmMmtCcQ==  
+3. base64解码
+    1. 要么Linux一般都有的`base64 -d`, 要么就还是[在线工具](https://www.lddgo.net/convert/stringbasesix)  
+    > 结果：oubWYf2kBq
+
+填入结果，得到密码：Access granted. The password for natas9 is Sda6t0vkOPkM8YeOZkAGVhFoaplvlJFd  
+
 ### 密码
 
 ```
+Sda6t0vkOPkM8YeOZkAGVhFoaplvlJFd
 ```
 
 ## Level 9 -> Level 10
