@@ -183,7 +183,7 @@ fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR
 要填东西，要么是找到正确答案，要么是想办法绕过提交之类的，但是他都非常贴心的给了个源码链接了.......  
 打开一看，这一段的提示已经非常明显了...  
 
-```c++
+```php
 <?
 
 include "includes/secret.inc";
@@ -198,12 +198,10 @@ include "includes/secret.inc";
 ?>
 ```
 
-> 实际上我不知道这是哪个语言的，反正是啥语言都不重要  
-
 把这个`includes/secret.inc`加到natas6的链接看看是什么就行了  
 http://natas6.natas.labs.overthewire.org/includes/secret.inc  
 
-```c++
+```php
 <?
 $secret = "FOEIUWGHFEEUHOFUOIU";
 ?>
