@@ -366,6 +366,11 @@ passwords
 > Output:  
 > D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE  
 
+---
+
+其实只需要加上匹配模式和密码文件路径就行了，用grep多查找一个文件，具体看下面一级  
+输入这个也行，结果看第一行就行了  
+`'.' /etc/natas_webpass/natas10`  
 
 ### 密码
 
