@@ -417,6 +417,188 @@ dictionary.txt:African
 
 ## Level 11 -> Level 12
 
+Cookies are protected with XOR encryption  
+> cookies 使用了异或加密保护  
+
+下面这一堆是他的php源码  
+
+```php
+<?
+// 创建"defaultdata"cookie的数组，showpassword键值为no，bgcolor键值为#ffffff
+$defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");
+
+// 实现异或加密的函数
+function xor_encrypt($in) {
+    $key = '<censored>';
+    $text = $in;
+    $outText = '';
+
+    // 遍历每个字符
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+}
+
+// 加载"data"cookie
+function loadData($def) {
+    global $_COOKIE; // 这里应该是使用$_COOKIE变量获取cookie
+    $mydata = $def;
+    if(array_key_exists("data", $_COOKIE)) {
+    // 临时的data数组，初始化方式为先base64解码cookie的data键，然后结果作为异或加密的参数，加密后内容转为数组赋值
+    $tempdata = json_decode(xor_encrypt(base64_decode($_COOKIE["data"])), true);
+    // 只有当临时data数组确实是数组；存在showpassword键；存在bgcolor键时，才执行下面的语句
+    if(is_array($tempdata) && array_key_exists("showpassword", $tempdata) && array_key_exists("bgcolor", $tempdata)) {
+        // 只有当临时data数组的bgcolor键值为十六进制颜色值时，才会把临时data数组的showpassword键值赋值给mydata数组
+        if (preg_match('/^#(?:[a-f\d]{6})$/i', $tempdata['bgcolor'])) {
+        $mydata['showpassword'] = $tempdata['showpassword'];
+        $mydata['bgcolor'] = $tempdata['bgcolor'];
+        }
+    }
+    }
+    return $mydata;
+}
+// 综上，唯一能够让整个php最后设置cookie时，data的showpassword键值为yes的方法，就是loadData()函数最初获取的cookie
+// 因为里面给返回的data数组赋值的临时data数组，其内容来自cookie的data键
+
+// 根据"data"设置cookie
+function saveData($d) {
+    setcookie("data", base64_encode(xor_encrypt(json_encode($d))));
+}
+
+// 调用loadData函数给"data"赋值，参数为"dafaultdata"
+$data = loadData($defaultdata);
+
+// 如果用户提交的表单存在bgcolor键，判断是否为十六进制颜色值，是则赋值给"data"的bgcolor键
+if(array_key_exists("bgcolor",$_REQUEST)) {
+    if (preg_match('/^#(?:[a-f\d]{6})$/i', $_REQUEST['bgcolor'])) {
+        $data['bgcolor'] = $_REQUEST['bgcolor'];
+    }
+}
+
+// 用"data"的值设置cookie
+saveData($data);
+?>
+
+<h1>natas11</h1>
+<div id="content">
+<body style="background: <?=$data['bgcolor']?>;">
+Cookies are protected with XOR encryption<br/><br/>
+
+<?
+// 如果data的showpassword键值为yes，就显示密码
+if($data["showpassword"] == "yes") {
+    print "The password for natas12 is <censored><br>";
+}
+
+?>
+```
+
+---
+
+流程：  
+创建一个初始的defaultdata关联数组，初始化键showpassword的值为no，bgcolor键的值为#ffffff  
+创建data关联数组，使用loadData()函数，defaultdata数组为参数，初始化data数组  
+获取用户cookie，并使用其中的data键值来计算一个值赋值给函数内临时数组，完成后返回该数组  
+将用户输入的颜色值赋值给data数组的bgcolor键  
+使用saveData()函数设置cookie  
+
+1. 使用json_encode()  
+2. xor_encrypt()  
+3. base64_encode  
+
+最后判断data数组的showpassword键值是否为yes  
+用户输入一个十六进制颜色值提交  
+颜色值写入到数组$data的bgcolor  
+运行loadData()函数，参数为变量$data  
+    使用变量$data的值来设置cookie  
+    cookie的值为：  
+        对$_COOKIE数组的data键值进行base64解码  
+        解码后的内容推测为一个xor_encrypt()函数内的完整参数，包含密钥  
+        使用json_decode()函数解码并返回数组，赋值给数组$tempdata  
+    判断数组$tempdata是否为数组；是否存在showpassword键；是否存在bgcolor键  
+        真：判断数组$tempdata的bgcolor键是否是十六进制颜色值  
+
+---
+
+流程：
+
+1. 最开始没有cookie  
+    1. 运行`$data = loadData($defaultdata);`，`$data`的值将为`$defaultdata`  
+2. 用预先定义的值设置cookie  
+    1. 运行`saveData($data);`，以`$data`的值设置cookie  
+    2. 具体细节  
+
+        ```php
+        function saveData($d) {
+            setcookie("data", base64_encode(xor_encrypt(json_encode($d))));
+        }
+        ```
+
+获取密码  
+
+1. 要显示密码，就需要运行`saveData($data)`时，`$data`数组的`showpassword`键值为`yes`  
+2. 而会对`$data`数组的`showpassword`键修改的地方在，`loadData()`函数  
+3. 具体实现为将cookie的data键值解码转为关联数组tempdata，后赋值给新数组作为返回值  
+    1. base64_decode  
+    2. 源码里的xor函数解  
+    3. json_decode转为数组  
+4. 所以为了修改`$data`数组，需要修改`$tempdata`数组，而该数组内容取决于浏览器cookie  
+    1. `$tempdata`来自浏览器的cookie具体定义如下：  
+    2. `$tempdata = json_decode(xor_encrypt(base64_decode($_COOKIE["data"])), true);`  
+5. 因此需要修改浏览器的cookie中data的值  
+    1. 但是该cookie值被异或加密保护  
+    2. 因此需要获得异或加密的密钥以及具体实现方式  
+    3. 此处使用的异或加密实现方法在源码中，既`xor_encrypt()`  
+    4. 其中密钥为`$key = '<censored>';`，显然需要寻找真正的值  
+
+关于异或加密  
+用字母代表明文(m)密文(c)和密钥(k)  
+m xor k = c  
+c xor k = m  
+两个相同的值异或运算结果为0  
+一个值和0异或运算结果为该值本身  
+m xor c = m xor m xor k = 0 xor k = k  
+所以将明文和密文进行异或运算即可得到密钥  
+
+> 可参考内容：
+> [关于异或加密](https://ruanyifeng.com/blog/2017/05/xor.html)  
+> [关于异或运算](https://blog.csdn.net/xiaopihaierletian/article/details/78162863)  
+
+获取密钥  
+1. 结合流程，第一次运行异或加密的函数位置为2.2  
+    * 因为第一次没有cookie所以`loadData()`函数里面的异或加密函数没有调用  
+2. 明文为`json_encode($d)`，既`json_encode($defaultdata)`，而它的值如下：  
+    * `$defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");`  
+3. 密文为`base64_decode(<value>);`，`<value>`为浏览器里获取到的data的值  
+    * 密文将经过base64编码后通过设置cookie的方式可被获取到，如下：  
+    * `setcookie("data", base64_encode(xor_encrypt(json_encode($d))));`  
+4. 计算获取密钥  
+
+    ```php
+    <?php
+    function xor_encrypt($in, $key) {
+        $key = 'a';
+        $text = $in;
+        $outText = '';
+        // 遍历每个字符
+        for($i=0;$i<strlen($text);$i++) {
+        $outText .= $text[$i] ^ $key[$i % strlen($key)];
+        }
+        return $outText;
+    }
+
+    $defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");
+    $data = "MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY=";
+
+    $m = json_encode($defaultdata);
+    $c = base64_decode($data);
+    $k = xor_encrypt($m, $c);
+    ```
+
+貌似还是不对，这样都不是密钥那要怎么搞？明天吧玛德
+
 ### 密码
 
 ```
