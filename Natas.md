@@ -440,7 +440,6 @@ function xor_encrypt($in) {
 
     return $outText;
 }
-
 // 加载"data"cookie
 function loadData($def) {
     global $_COOKIE; // 这里应该是使用$_COOKIE变量获取cookie
@@ -459,9 +458,6 @@ function loadData($def) {
     }
     return $mydata;
 }
-// 综上，唯一能够让整个php最后设置cookie时，data的showpassword键值为yes的方法，就是loadData()函数最初获取的cookie
-// 因为里面给返回的data数组赋值的临时data数组，其内容来自cookie的data键
-
 // 根据"data"设置cookie
 function saveData($d) {
     setcookie("data", base64_encode(xor_encrypt(json_encode($d))));
@@ -476,15 +472,9 @@ if(array_key_exists("bgcolor",$_REQUEST)) {
         $data['bgcolor'] = $_REQUEST['bgcolor'];
     }
 }
-
 // 用"data"的值设置cookie
 saveData($data);
 ?>
-
-<h1>natas11</h1>
-<div id="content">
-<body style="background: <?=$data['bgcolor']?>;">
-Cookies are protected with XOR encryption<br/><br/>
 
 <?
 // 如果data的showpassword键值为yes，就显示密码
@@ -494,33 +484,6 @@ if($data["showpassword"] == "yes") {
 
 ?>
 ```
-
----
-
-流程：  
-创建一个初始的defaultdata关联数组，初始化键showpassword的值为no，bgcolor键的值为#ffffff  
-创建data关联数组，使用loadData()函数，defaultdata数组为参数，初始化data数组  
-获取用户cookie，并使用其中的data键值来计算一个值赋值给函数内临时数组，完成后返回该数组  
-将用户输入的颜色值赋值给data数组的bgcolor键  
-使用saveData()函数设置cookie  
-
-1. 使用json_encode()  
-2. xor_encrypt()  
-3. base64_encode  
-
-最后判断data数组的showpassword键值是否为yes  
-用户输入一个十六进制颜色值提交  
-颜色值写入到数组$data的bgcolor  
-运行loadData()函数，参数为变量$data  
-    使用变量$data的值来设置cookie  
-    cookie的值为：  
-        对$_COOKIE数组的data键值进行base64解码  
-        解码后的内容推测为一个xor_encrypt()函数内的完整参数，包含密钥  
-        使用json_decode()函数解码并返回数组，赋值给数组$tempdata  
-    判断数组$tempdata是否为数组；是否存在showpassword键；是否存在bgcolor键  
-        真：判断数组$tempdata的bgcolor键是否是十六进制颜色值  
-
----
 
 流程：
 
@@ -553,55 +516,107 @@ if($data["showpassword"] == "yes") {
     3. 此处使用的异或加密实现方法在源码中，既`xor_encrypt()`  
     4. 其中密钥为`$key = '<censored>';`，显然需要寻找真正的值  
 
-关于异或加密  
-用字母代表明文(m)密文(c)和密钥(k)  
-m xor k = c  
-c xor k = m  
-两个相同的值异或运算结果为0  
-一个值和0异或运算结果为该值本身  
-m xor c = m xor m xor k = 0 xor k = k  
-所以将明文和密文进行异或运算即可得到密钥  
+获取密钥
 
-> 可参考内容：
-> [关于异或加密](https://ruanyifeng.com/blog/2017/05/xor.html)  
-> [关于异或运算](https://blog.csdn.net/xiaopihaierletian/article/details/78162863)  
-
-获取密钥  
-1. 结合流程，第一次运行异或加密的函数位置为2.2  
+1. 结合流程，第一次运行异或加密的函数位置为，流程2.2  
     * 因为第一次没有cookie所以`loadData()`函数里面的异或加密函数没有调用  
 2. 明文为`json_encode($d)`，既`json_encode($defaultdata)`，而它的值如下：  
     * `$defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");`  
 3. 密文为`base64_decode(<value>);`，`<value>`为浏览器里获取到的data的值  
     * 密文将经过base64编码后通过设置cookie的方式可被获取到，如下：  
     * `setcookie("data", base64_encode(xor_encrypt(json_encode($d))));`  
-4. 计算获取密钥  
+4. 反推获取密钥  
+    1. 推算出密钥涉及的内容单独在下面，建议先看完下面  
+    2. 具体代码实现
 
     ```php
-    <?php
+    $defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");
+    $data = "MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY=";
+    $m = json_encode($defaultdata);
+    $c = base64_decode($data);
+    $k = xor_encrypt($m, $c);
+    echo $k;
+    // 输出：KNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLKNHLK
+    ```
+
+    计算出的结果去重，得到密钥`KNHL`，重新构造一个数组然后带入密钥加密  
+    具体就是照着上面那个数组的定义，把no改成yes，然后改背景颜色实际上没必要，只是我个人加点反馈  
+
+    ```php
+    $changedData = array("showpassword"=>"yes", "bgcolor"=>"#00ffff");
+    $changedCookie = base64_encode(xor_encrypt(json_encode($changedData), "KNHL"));
+    echo $changedCookie;
+    ```
+
+    运行以后就得到这个cookie了↓：  
+    `MGw7JCQ5OC04PT8jOSpqdmk3LT9pYmouLC0nICQ8anZpbXh8LSguKmkz`  
+    浏览器打开开发者工具，应用，cookie，把data的值修改成这个，然后刷新就行了  
+    > The password for natas12 is YWqo0pjpcXzSIl5NMAVxg12QxeC1w9QG  
+
+跟反推密钥相关的内容
+
+1. 关于异或加密  
+
+    ```
+    如果用字母代表明文(m)密文(c)和密钥(k)
+    xor代表异或运算（对左右两边的值的对应的所有二进制位计算）
+    1. m xor k = c  
+    2. c xor k = m  
+    3. 两个相同的值异或运算结果为0  
+    4. 一个值和0异或运算结果为该值本身  
+    m xor c = m xor m xor k = 0 xor k = k  
+    所以将明文和密文进行异或运算即可得到密钥  
+    ```
+
+    > 可参考内容：
+    > [关于异或加密](https://ruanyifeng.com/blog/2017/05/xor.html)  
+    > [关于异或运算](https://blog.csdn.net/xiaopihaierletian/article/details/78162863)  
+
+2. 使用的加密函数的细节
+    1. 遍历明文的每一个字符，对每个字符使用密钥中第i个字符进行异或运算
+    2. 下面的for循环内，可以在遍历明文时，同时也遍历密钥的字符
+    3. 对哦这其实就是类似嵌套了一个循环的效果，遍历明文的时候，又能再次基础上遍历密钥，这样就能按顺序重复使用密钥的字符
+    4. 也正因此，直接算出来的密钥是重复了几次的
+    5. 而重复过的密钥，不一定是正好重复了i次的，所以末尾不一定是密钥本身的末尾，类似于1231，结尾不是123的3，而是1
+    6. **所以，如果使用重复的密钥来加解密，在遍历到结尾的时候，那个非正常的结尾字符，就会导致些许错误**
+    7. ↑被这个整懵逼了好久，我这样做结果发现，数组的键`showpassword`的值，只要大于两个字符，生成的cookie就没法用，结果刚好就不能设置为`"yes"`↑
+    8. 上面两句算是后话，结合整篇内容才知道我在说什么（
+    9. 下面这一段应该可以说明
+
+    ```php
     function xor_encrypt($in, $key) {
-        $key = 'a';
         $text = $in;
         $outText = '';
-        // 遍历每个字符
         for($i=0;$i<strlen($text);$i++) {
         $outText .= $text[$i] ^ $key[$i % strlen($key)];
         }
         return $outText;
     }
 
-    $defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");
-    $data = "MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY=";
+    $key = "123";
+    $text = "1234567890";
+    $cipherText = xor_encrypt($text, $key);
+    $wrongKey = xor_encrypt($text, $cipherText);
 
-    $m = json_encode($defaultdata);
-    $c = base64_decode($data);
-    $k = xor_encrypt($m, $c);
+    echo "Key is       : " . $key . "<br>";
+    echo "Text is      : " . $text . "<br>";
+    echo "CipherText is: " . $cipherText . "<br>";
+    echo "Calculated Key is: " . $wrongKey . "<br>";
     ```
 
-貌似还是不对，这样都不是密钥那要怎么搞？明天吧玛德
+    > 输出：
+    > Key is : 123
+    > Text is : 1234567890
+    > CipherText is:  
+    > Calculated Key is: 1231231231
+
+
+
 
 ### 密码
 
 ```
+YWqo0pjpcXzSIl5NMAVxg12QxeC1w9QG
 ```
 
 ## Level 12 -> Level 13
