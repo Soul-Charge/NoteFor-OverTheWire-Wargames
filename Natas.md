@@ -720,9 +720,19 @@ lW3jYRI02ZKDBb8VtQBU1f6eDRo6WEj9
 
 ## Level 13 -> Level 14
 
+> For security reasons, we now only accept image files!
+
+区别不过是加了一个`exif_imagetype()`函数来识别上传的是不是图片，这玩意一艘绕过一大把  
+对于这关，需要JPEG，把上次用的php文件改一下(看密码13改成14），用hex编辑器给头部加上`FF D8 FF E0 00 10`就行了  
+具体操作，我是先在文件头部输入六个空格，然后在vscode里面用hex编辑器的插件打开，把把开头六个空格的值照着改就行了  
+最后当然要把文件重命名为`.jpg`  结尾  
+
+> [参考](https://www.cnblogs.com/Lee-404/p/12838790.html)  
+
 ### 密码
 
 ```
+qPazSJBmrmU7UQJv17MHk1PGC4DxZMEP
 ```
 
 ## Level 14 -> Level 15
