@@ -737,9 +737,67 @@ qPazSJBmrmU7UQJv17MHk1PGC4DxZMEP
 
 ## Level 14 -> Level 15
 
+两个输入框，一个输入用户名一个输入密码，还有个登录的按键和查看源码  
+
+```php
+<?php
+// 这里连接到了一个MySQL数据库
+if(array_key_exists("username", $_REQUEST)) {
+    $link = mysqli_connect('localhost', 'natas14', '<censored>');
+    mysqli_select_db($link, 'natas14');
+    // 构造了一个查询语句
+    // 就是SELECT * FROM users WHERE username="" and password=""
+    // 在这两对双引号里的内容是页面上获取的用户名和密码的输入
+    $query = "SELECT * from users where username=\"".$_REQUEST["username"]."\" and password=\"".$_REQUEST["password"]."\"";
+    // 这个判断语句使得能够通过在URL末尾添加GET请求的参数来触发调试，例子如下
+    // http://natas14.natas.labs.overthewire.org/?debug=1&username=a&password=a
+    // 这样会显示将会运行的查询字符串，方便调试注入语句
+    if(array_key_exists("debug", $_GET)) {
+        echo "Executing query: $query<br>";
+    }
+    // 通过计数查询返回的结果数量来判断是否显示密码
+    // 也就是说只要至少查找到一个项目就会显示密码
+    if(mysqli_num_rows(mysqli_query($link, $query)) > 0) {
+            echo "Successful login! The password for natas15 is <censored><br>";
+    } else {
+            echo "Access denied!<br>";
+    }
+    mysqli_close($link);
+} else {
+?>
+```
+
+因为有`where`接上了`username`和`password`的匹配，所以正常输入的话，不知道它数据库里面有什么就根本试不出来  
+但是查询语句根本没过滤输入，所以用经典的MySQL注入就行了  
+网上搜，菜鸟教程的是这个： `' OR '1'='1'; --`  
+不过因为可以用数字`1`代表真，所以可以简化一下： `" OR 1; -- `  
+所以，把这个填入两个框里面就行了，还有，两个框都要填，因为源码里面调用了这两个框的输入，所以都得有输入才行  
+
+**细节解释**  
+
+查询语句：`SELECT * FROM users where username="" and password=""`  
+如果没有`where`进行过滤的话，就会直接查询所有内容，所以需要让这个`where`失效  
+
+1. 可以操作的地方在于两对双引号之间，首先让后面的其他内容失效，使用注释`-- `（注意`--`后面必须要有一个空格[详见此](https://blog.csdn.net/u010164507/article/details/85259680)）
+    1. 添加注释
+        `username="-- "`
+2. 接下来修改左侧表达式，使其值为真
+    1. 添加一个双引号构成用户名是否为空字符串的比较
+         `username=""-- "`
+    2. 通过`OR`添加逻辑与，然后在右侧写一个值为真的表达式或者值，然后用`;`结尾
+         `username="" OR 1; -- "`
+
+**其他**
+
+除了把输入填到框里，还可以通过在网页链接末尾添加GET参数来提交内容  
+虽然页面表单提交用的是POST方法，但是源码里直接使用`$_REQUEST`也可以获取GET的参数，具体如上面源码的注释  
+
+> [关于GET和POST](https://www.runoob.com/tags/html-httpmethods.html)  
+
 ### 密码
 
 ```
+TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB
 ```
 
 ## Level 15 -> Level 16
